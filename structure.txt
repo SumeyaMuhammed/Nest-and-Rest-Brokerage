@@ -1,0 +1,48 @@
+brokerage-system/
+├── backend/                    # Backend (server-side)
+│   ├── controllers/            # Handle request logic
+│   ├── models/                 # Database models/schema
+│   ├── routes/                 # API routes
+│   ├── services/               # Business logic (e.g., broker assignment)
+│   ├── middlewares/            # Custom middlewares (e.g., authentication)
+│   ├── utils/                  # Utility functions/helpers
+│   ├── config/                 # Configuration files (e.g., DB connection)
+│   ├── tests/                  # Backend unit and integration tests
+│   ├── app.js                  # Express app setup
+│   └── server.js               # Entry point for the backend
+│
+├── frontend/                   # Frontend (client-side)
+│   ├── public/                 # Public assets (e.g., index.html, icons)
+│   ├── src/                    # Source code for the React app
+│   │   ├── components/         # Reusable components (e.g., Navbar, Footer)
+│   │   ├── pages/              # Pages (e.g., Home, Listings, Details)
+│   │   ├── hooks/              # Custom React hooks
+│   │   ├── utils/              # Helper functions (e.g., formatters)
+│   │   ├── services/           # API calls (e.g., Axios services)
+│   │   ├── context/            # Context API (e.g., Auth, Filters)
+│   │   ├── App.js              # Main React component
+│   │   ├── index.js            # Entry point for React
+│   │   └── styles/             # Styling (e.g., CSS/SCSS files)
+│   ├── package.json            # Frontend dependencies
+│   └── webpack.config.js       # Webpack configuration (if using custom setup)
+│
+├── database/                   # Database scripts and migrations
+│   ├── migrations/             # Schema changes over time
+│   ├── seeders/                # Initial data population
+│   └── schema.sql              # Database schema (initial setup)
+│
+├── docs/                       # Documentation for the project
+│   ├── API.md                  # API documentation
+│   ├── DB_SCHEMA.md            # Database schema documentation
+│   └── README.md               # Overview of the project
+│
+├── tests/                      # End-to-end and integration tests
+│   ├── frontend/               # Frontend tests
+│   ├── backend/                # Backend tests
+│   └── e2e/                    # End-to-end tests
+│
+├── .env                        # Environment variables (common for both backend & frontend)
+├── .gitignore                  # Git ignore file
+├── docker-compose.yml          # Docker configuration for deployment
+├── package.json                # Project dependencies (common scripts)
+└── README.md                   # Main project documentation
