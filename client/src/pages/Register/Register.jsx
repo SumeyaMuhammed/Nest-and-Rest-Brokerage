@@ -1,4 +1,5 @@
 // import Layout from "../../components/Layout/Layout";
+import { Link } from "react-router-dom";
 import classes from "./register.module.css";
 const Register = () => {
   return (
@@ -22,7 +23,7 @@ const Register = () => {
 
           <button type="submit">Sign Up</button>
         </form>
-        <p>Already have an account? <a href="login.html">Login</a></p>
+        <p>Already have an account? <Link to="/login">Login</Link></p>
       </div>
       </section>
     </>
