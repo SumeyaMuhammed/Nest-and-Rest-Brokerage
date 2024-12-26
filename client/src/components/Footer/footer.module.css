@@ -1,39 +1,85 @@
-.footerContent {
+.footer .navbar {
     display: flex;
     justify-content: space-between;
+    padding: 20px 50px;
+    background-color: #091436;
     align-items: center;
-    padding: 20px;
-    flex-wrap: wrap; 
-    background-color:  #091436;
 }
 
-.navbar a {
+.footer .navbar a {
     text-decoration: none;
     color: white;
     margin: 0 15px;
     font-weight: bold;
     transition: 0.3s ease-in-out;
-    text-decoration: none;
-    font-size: 24px;
-
 }
 
-.navbar a:hover {
+.footer .navbar a:hover {
     color: #FF6B00;
 }
 
-.logo {
+.footerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
+.footer .logo {
     display: flex;
     align-items: center;
 }
 
-  @media (max-width: 768px) {
-      .footerContent {
-          flex-direction: column;
-          align-items: center;
-      }
-      .footerContent a, .footerContent p{
-          margin: 30px 10px;
-          font-size: 15px;
-      }
-  }
+.footer p {
+    color: white;
+}
+
+.footer .socialIcons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.footer .socialIcons a {
+    margin: 10px;
+    color: #f0f0f0;
+    font-size: 24px;
+}
+
+@media (max-width: 768px) {
+    .footer .navbar {
+        flex-direction: column;
+        padding: 10px;
+        align-items: center;
+    }
+
+    .footer .navbar a {
+        margin: 10px 0;
+    }
+
+    .footerContent {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footerContent .logo {
+        margin-bottom: 15px;
+    }
+
+    .footer .socialIcons {
+        justify-content: center;
+        margin: 5px 0;
+    }
+
+    .footer .socialIcons a {
+        margin: 10px; /* Adds spacing between icons in smaller viewports */
+    }
+
+    .footerContent p {
+        margin: 10px 0;
+        font-size: 14px;
+    }
+}
