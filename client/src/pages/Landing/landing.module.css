@@ -1,8 +1,12 @@
-body {
+* {
+  margin: 0;
+  padding: 0;
+}
+.whole {
   margin: 0;
   font-family: Arial, sans-serif;
   color: white;
-  background: url('../../assets/images/bg.jpg') no-repeat center center fixed; /* Replace 'background.jpg' with your image path */
+  background: url('../../assets/images/bg.jpg') no-repeat center center fixed;
   background-size: cover;
 }
 
@@ -15,26 +19,6 @@ body {
   background-color: rgba(0, 0, 0, 0.5); 
   z-index: -1;
 }
-
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px 50px;
-  background-color: #0d0b2a;
-  align-items: center;
-}
-
-.navbar a {
-  text-decoration: none;
-  color: white;
-  margin: 0 15px;
-  font-weight: bold;
-}
-
-.navbar a:hover {
-  color: #FF6B00;
-}
-
 .hero {
   text-align: center;
   padding: 150px 20px;
@@ -55,25 +39,32 @@ body {
 .stats {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
   padding: 50px 20px;
-  background-color: rgba(26, 23, 59, 0.9);
+  margin-bottom: 20px; 
+  text-align: center;
 }
 
 .stat {
-  margin: 15px 30px;
-  text-align: center;
-  flex: 1 1 200px; /* Responsive flexbox */
-  max-width: 250px;
+  display: inline-block;
+  margin: 15px;
+  padding: 20px;
+  background-color: #091436;
+  border-radius: 10px;
+  width: 200px;
 }
 
 .stat h2 {
-  font-size: 2rem;
-  color: #FF6B00;
+  color: #FF6600; /* Vibrant orange for numbers */
+  font-size: 2.5em;
+  font-weight: bold;
+  margin: 0;
 }
 
 .stat p {
-  font-size: 1rem;
+  color: #FFFFFF; /* Soft white for labels */
+  font-size: 1.2em;
+  margin-top: 10px;
 }
 button {
   background-color: #FF6B00;
@@ -101,20 +92,5 @@ button:hover {
   .hero button {
     padding: 10px 20px;
     font-size: 0.9rem;
-  }
-
-  .navbar {
-      flex-direction: column;
-      padding: 10px;
-  }
-
-  .navbar nav {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-  }
-
-  .navbar a {
-      margin: 10px 0;
   }
 }

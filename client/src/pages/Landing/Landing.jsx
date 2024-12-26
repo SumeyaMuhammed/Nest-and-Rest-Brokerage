@@ -3,6 +3,7 @@ import classes from "./landing.module.css"
 const Landing = () => {
   return (
     <Layout>
+    <div className={classes.whole}>
     <div className={classes.overlay}></div>
     <main>
         <div className={classes.hero}>
@@ -13,15 +14,15 @@ const Landing = () => {
 
         <section className={classes.stats}>
             <div className={classes.stat}>
-              <h2>$200 B+</h2>
+              <h2>$200 K+</h2>
               <p>Monthly Volume</p>
             </div>
             <div className={classes.stat}>
-              <h2>200+</h2>
+              <h2>150+</h2>
               <p>Brokers</p>
             </div>
             <div className={classes.stat}>
-              <h2>65 K</h2>
+              <h2>6000 +</h2>
               <p>Traders</p>
             </div>
             <div className={classes.stat}>
@@ -30,6 +31,7 @@ const Landing = () => {
             </div>
         </section>
     </main>
+    </div>
     </Layout>
   )
 }

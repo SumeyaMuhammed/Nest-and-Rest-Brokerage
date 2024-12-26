@@ -14,7 +14,7 @@ const Footer = () => {
                 />
                     <a href="#">Nest & Ride</a>
                 </div>
-                <div className="social-icons">
+                <div className={classes.socialIcons}>
       <a href="#">
         <FaPaperPlane />
       </a>
@@ -29,11 +29,10 @@ const Footer = () => {
       </a>
     </div>
 
+    <div>
+        <p>Developed by:</p>
 
-            <div>
-                <p>Developed by:</p>
-
-            </div>
+    </div>
             </div>
     
            

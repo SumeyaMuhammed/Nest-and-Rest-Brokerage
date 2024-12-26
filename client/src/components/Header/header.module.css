@@ -1,120 +1,112 @@
+/* Reset and Background */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   color: white;
-  background: url('bg.jpg') no-repeat center center fixed; /* Replace 'background.jpg' with your image path */
+  background: url("bg.jpg") no-repeat center center fixed;
   background-size: cover;
 }
 
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Transparent black overlay */
-  z-index: -1;
-}
-
+/* Navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
-  padding: 20px 50px;
+  padding: 15px 30px;
   background-color: #0d0b2a;
   align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
 }
 
-.navbar a {
+/* Logo */
+.logo a {
   text-decoration: none;
   color: white;
-  margin: 0 15px;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
-.navbar a:hover {
-  color: #FF6B00;
-}
-
-.hero {
-  text-align: center;
-  padding: 150px 20px;
-  position: relative;
-  color: white;
-}
-
-.hero h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
-}
-
-.hero p {
-  font-size: 1.5rem;
-  margin-bottom: 30px;
-}
-
-.stats {
+/* Navigation Links */
+.nav {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 50px 20px;
-  background-color: rgba(26, 23, 59, 0.9);
+  align-items: center;
+  gap: 20px; /* Add spacing between links */
 }
 
-.stat {
-  margin: 15px 30px;
-  text-align: center;
-  flex: 1 1 200px; /* Responsive flexbox */
-  max-width: 250px;
+.nav.active {
+  display: flex;
 }
 
-.stat h2 {
-  font-size: 2rem;
-  color: #FF6B00;
+/* Hidden on Smaller Screens (Handled via Media Query) */
+@media (max-width: 768px) {
+  .nav {
+    display: none; /* Hide by default for smaller screens */
+    flex-direction: column;
+    background-color: #0d0b2a;
+    position: absolute;
+    top: 60px; /* Align dropdown with header */
+    right: 0;
+    width: 100%;
+    padding: 10px 0; /* Reduced padding for dropdown */
+    text-align: center;
+  }
+
+  .nav.active {
+    display: flex; /* Show when active on smaller screens */
+  }
 }
 
-.stat p {
-  font-size: 1rem;
+/* Navigation Links Styling */
+.navLink {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
 }
-button {
-  background-color: #FF6B00;
+
+.navLink:hover {
+  color: #ff6b00;
+}
+
+/* Sign-Up Button */
+.signup {
+  background-color: #ff6b00;
   color: white;
   border: none;
-  padding: 15px 30px;
+  padding: 10px 20px;
   font-size: 1rem;
   cursor: pointer;
   border-radius: 5px;
+  transition: all 0.3s ease-in-out;
 }
 
-button:hover {
+.signup:hover {
+  background-color: #cb5202;
+}
+
+/* Hamburger Menu Button */
+.hamburger {
+  display: none; /* Hidden on larger screens */
+  background: none;
+  border: none;
+  color: white;
+  padding: 10px;
+  font-size: .8rem;
+  cursor: pointer;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease-in-out;
+}
+.hamburger:hover{
   background-color: #E55D00;
 }
-
+/* Media Query for Smaller Screens */
 @media (max-width: 768px) {
-  .hero h1 {
-      font-size: 2rem;
-  }
-
-  .hero p {
-      font-size: 1.2rem;
-  }
-
-  .hero button {
-      padding: 10px 20px;
-      font-size: 0.9rem;
-  }
-
-  .navbar {
-      flex-direction: column;
-      padding: 10px;
-  }
-
-  .navbar nav {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-  }
-
-  .navbar a {
-      margin: 10px 0;
+  .hamburger {
+    display: flex; /* Show only on smaller screens */
   }
 }
