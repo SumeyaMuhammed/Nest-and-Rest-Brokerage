@@ -1,0 +1,103 @@
+.registerSection {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  color: black;
+}
+
+.containerRegister .error {
+  color: red !important; /* Ensures the rule is applied */
+  font-size: 0.9rem;
+  margin-top: 0.4rem;
+  margin-bottom: 0.6rem;
+  text-align: left;
+}
+
+.containerRegister .success {
+  color: green;
+  font-size: 1rem;
+  margin-top: 0.8rem;
+  text-align: center;
+}
+
+.containerRegister {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  width: 350px;
+  text-align: center;
+}
+
+.containerRegister h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Consistent spacing between inputs */
+}
+
+.containerRegister label {
+  text-align: left;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+.containerRegister input {
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  transition: border 0.2s ease-in-out;
+}
+
+.containerRegister input:focus {
+  outline: none;
+  border: 1px solid #FF6B00; /* Highlight input on focus */
+  box-shadow: 0 0 5px rgba(255, 107, 0, 0.3);
+}
+
+.containerRegister input.errorInput {
+  border: 1px solid red; /* Red border for invalid inputs */
+}
+
+.containerRegister button {
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #FF6B00;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.containerRegister button:hover {
+  background-color: #E55D00;
+}
+
+.containerRegister p {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.containerRegister a {
+  text-decoration: none;
+  color: #FF6B00;
+}
+
+.containerRegister a:hover {
+  text-decoration: underline;
+}
