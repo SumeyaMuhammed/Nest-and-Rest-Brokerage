@@ -58,7 +58,9 @@ const Header = () => {
           <Link to="/contact" className={classes.navLink}>
             Get in Touch
           </Link>
-          <button className={classes.signup}>Sign Up</button>
+          <Link to="/register">
+            <button className={classes.signup}>Sign Up</button>
+          </Link>
         </nav>
       </div>
     </header>
