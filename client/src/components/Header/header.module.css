@@ -1,11 +1,3 @@
-/* Reset and Background */
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  color: white;
-  background: url("bg.jpg") no-repeat center center fixed;
-  background-size: cover;
-}
 
 /* Navbar */
 .navbar {
