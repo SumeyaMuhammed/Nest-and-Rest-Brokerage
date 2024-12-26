@@ -10,7 +10,7 @@
   background-size: cover;
 }
 
-.overlay {
+.whole .overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -19,24 +19,24 @@
   background-color: rgba(0, 0, 0, 0.5); 
   z-index: -1;
 }
-.hero {
+.whole .hero {
   text-align: center;
   padding: 150px 20px;
   position: relative;
   color: white;
 }
 
-.hero h1 {
+.whole .hero h1 {
   font-size: 3rem;
   margin-bottom: 20px;
 }
 
-.hero p {
+.whole .hero p {
   font-size: 1.5rem;
   margin-bottom: 30px;
 }
 
-.stats {
+.whole .stats {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -45,7 +45,7 @@
   text-align: center;
 }
 
-.stat {
+.whole .stat {
   display: inline-block;
   margin: 15px;
   padding: 20px;
@@ -54,19 +54,19 @@
   width: 200px;
 }
 
-.stat h2 {
+.whole .stat h2 {
   color: #FF6600; /* Vibrant orange for numbers */
   font-size: 2.5em;
   font-weight: bold;
   margin: 0;
 }
 
-.stat p {
+.whole .stat p {
   color: #FFFFFF; /* Soft white for labels */
   font-size: 1.2em;
   margin-top: 10px;
 }
-button {
+.whole button {
   background-color: #FF6B00;
   color: white;
   border: none;
@@ -76,20 +76,20 @@ button {
   border-radius: 5px;
 }
 
-button:hover {
+.whole button:hover {
   background-color: #E55D00;
 }
 
 @media (max-width: 768px) {
-  .hero h1 {
+  .whole .hero h1 {
     font-size: 2rem;
   }
 
-  .hero p {
+  .whole .hero p {
     font-size: 1.2rem;
   }
 
-  .hero button {
+  .whole .hero button {
     padding: 10px 20px;
     font-size: 0.9rem;
   }
