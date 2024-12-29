@@ -1,6 +1,7 @@
 
 /* Navbar */
 .navbar {
+  font-family: Arial, sans-serif;
   display: flex;
   justify-content: space-between;
   padding: 15px 30px;
