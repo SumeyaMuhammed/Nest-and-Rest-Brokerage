@@ -6,7 +6,6 @@ const Footer = () => {
     <footer className={classes.footer}>
       <div className={`${classes.footerContent} ${classes.navbar}`}>
           <div className={classes.logo}>
-            <img className={classes.logoimg} src="/static/images/pngtree-github-icon-design-vector-png-image_5544222.png" alt="logo" width="35px" />
             <a href="#">Nest & Ride</a>
           </div>
           <div className={classes.socialIcons}>
