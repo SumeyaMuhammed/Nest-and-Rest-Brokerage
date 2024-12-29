@@ -1,0 +1,161 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Dashboard Container */
+.userDashboard {
+  font-family: Arial, sans-serif;
+  color: #333;
+  background-color: #f5f5f5;
+  padding: 150px 20px;
+}
+
+/* Intro Section */
+.userDashboard .introSection {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.userDashboard .introSection h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #1a1a1a;
+  font-weight: bold;
+}
+
+.userDashboard .introSection p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Search Section */
+.userDashboard .searchSection {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 40px;
+}
+
+.userDashboard .searchInput {
+  width: 100%;
+  max-width: 600px;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  outline: none;
+}
+
+.userDashboard .searchInput:focus {
+  border-color: #ff4500; /* Updated focus color to orange */
+  box-shadow: 0 0 2px rgba(255, 69, 0, 0.5);
+}
+
+/* Error Message */
+.userDashboard .errorMessage {
+  color: #e74c3c;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}
+
+/* Section */
+.userDashboard .section {
+  margin-bottom: 50px;
+}
+
+.userDashboard .section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #ff4500; /* Added bottom border */
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+/* Grid Layout */
+.userDashboard .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+/* Card Styles */
+.userDashboard .card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-bottom: 3px solid #ff4500; /* Added bottom border to card */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.userDashboard .card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.userDashboard .cardImage {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.userDashboard .cardContent {
+  padding: 20px;
+}
+
+.userDashboard .cardContent h3 {
+  font-size: 1.4rem;
+  color: #ff4500;
+  margin-bottom: 15px;
+  text-transform: capitalize;
+}
+
+.userDashboard .cardContent p {
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.userDashboard .cardContent p strong {
+  color: #333;
+  font-weight: bold;
+}
+
+/* Button Styles */
+.userDashboard button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.userDashboard button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .userDashboard .introSection h1 {
+    font-size: 2rem;
+  }
+
+  .userDashboard .introSection p {
+    font-size: 0.9rem;
+  }
+
+  .userDashboard .cardContent h3 {
+    font-size: 1.2rem;
+  }
+}
