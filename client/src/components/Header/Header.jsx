@@ -1,10 +1,14 @@
-import  { useState, useEffect } from "react";
+// src/components/Header.jsx
+import { useState, useEffect } from "react";
 import classes from "./header.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { useAuth } from "../../context/useAuth"; // import the context
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isAuthenticated, logout } = useAuth(); // Get auth state and logout function
+  const navigate = useNavigate(); // Navigate after logout
 
   // Collapse menu on screen resize
   useEffect(() => {
@@ -21,6 +25,11 @@ const Header = () => {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = () => {
+    logout(); // Log the user out
+    navigate("/login"); // Redirect to login page
   };
 
   return (
@@ -58,9 +67,17 @@ const Header = () => {
           <Link to="/contact" className={classes.navLink}>
             Get in Touch
           </Link>
-          <Link to="/register">
-            <button className={classes.signup}>Sign Up</button>
-          </Link>
+
+          {/* Conditionally render Sign Up or Log Out */}
+          {!isAuthenticated ? (
+            <Link to="/register">
+              <button className={classes.signup}>Sign Up</button>
+            </Link>
+          ) : (
+            <button className={classes.signup} onClick={handleLogout}>
+              Log Out
+            </button>
+          )}
         </nav>
       </div>
     </header>
