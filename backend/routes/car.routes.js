@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const carController = require('../controllers/car.controller');
 const upload = require('../middleware/upload'); // Import multer configuration
+const { verifyToken, restrictTo } = require('../middleware/auth.middleware');
 
 // Route to get all cars
 router.get('/', carController.getAllCars);
