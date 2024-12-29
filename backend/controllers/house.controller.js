@@ -4,7 +4,7 @@ const path = require('path');
 // Function to get all houses
 exports.getAllHouses = (req, res) => {
     db.query('SELECT * FROM House', (err, results) => {
-        if (err) {
+        if (err){
             console.error(err);
             return res.status(500).send('Database error');
         }
