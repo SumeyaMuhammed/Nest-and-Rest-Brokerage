@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "../../api/axiosInstance"; // Import Axios instance
+import { useNavigate, Link } from "react-router-dom";
 import classes from "./register.module.css";
+import axiosInstance from "../../api/axiosInstance";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -11,10 +11,9 @@ const Register = () => {
     confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
-  const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate(); // Add useNavigate for redirection
 
-  // Email validation regex
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const validateForm = () => {
@@ -48,7 +47,6 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSuccessMessage("");
     setErrorMessage("");
 
     if (!validateForm()) {
@@ -56,16 +54,23 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post("/register", {
+      const response = await axiosInstance.post("/users/register", {
         username: formData.username,
         email: formData.email,
         password: formData.password,
       });
-      console.log(response.data);
-      setSuccessMessage("Registration successful! Please login.");
-      setFormData({ username: "", email: "", password: "", confirmPassword: "" });
-      setErrors({});
+
+      if (response.data && response.data.token) {
+        // Automatically log in the user by storing the token
+        localStorage.setItem("authToken", response.data.token);
+
+        // Redirect to the dashboard
+        navigate("/dashboard");
+      } else {
+        throw new Error("Registration successful, but no token received.");
+      }
     } catch (error) {
+      console.log(error);
       setErrorMessage(
         error.response?.data?.message || "An error occurred. Please try again."
       );
@@ -90,8 +95,6 @@ const Register = () => {
             name="username"
             value={formData.username}
             onChange={handleChange}
-            // Remove 'required' attribute
-            // required
             className={errors.username ? classes.inputError : ""}
           />
           {errors.username && <p className={classes.error}>{errors.username}</p>}
@@ -103,8 +106,6 @@ const Register = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            // Remove 'required' attribute
-            // required
             className={errors.email ? classes.inputError : ""}
           />
           {errors.email && <p className={classes.error}>{errors.email}</p>}
@@ -116,8 +117,6 @@ const Register = () => {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            // Remove 'required' attribute
-            // required
             className={errors.password ? classes.inputError : ""}
           />
           {errors.password && <p className={classes.error}>{errors.password}</p>}
@@ -129,18 +128,15 @@ const Register = () => {
             name="confirmPassword"
             value={formData.confirmPassword}
             onChange={handleChange}
-            // Remove 'required' attribute
-            // required
             className={errors.confirmPassword ? classes.inputError : ""}
           />
           {errors.confirmPassword && (
             <p className={classes.error}>{errors.confirmPassword}</p>
           )}
 
-          <button type="submit" className={classes.submitButton}>Sign Up</button>
-          {successMessage && (
-            <p className={classes.success}>{successMessage}</p>
-          )}
+          <button type="submit" className={classes.submitButton}>
+            Sign Up
+          </button>
           {errorMessage && <p className={classes.error}>{errorMessage}</p>}
         </form>
         <p>
