@@ -1,0 +1,231 @@
+.manageBroker {
+  background-color: #f9f9f9;
+}
+
+.brokerForm {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  margin: 1rem auto 2rem;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.brokerForm h3 {
+  margin-bottom: 1rem;
+  color: #091436;
+}
+
+.brokerForm label {
+  margin: 0.5rem 0 0.2rem;
+  font-weight: bold;
+}
+
+.brokerForm input,
+.brokerForm textarea,
+.brokerForm select,
+.brokerForm button {
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.brokerForm button {
+  background-color: #ff6b00;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.brokerForm button:hover {
+  background-color: #e55d00;
+}
+
+/* Success Message */
+.successMessage {
+  color: green;
+  background-color: #e6ffe6;
+  padding: 10px;
+  border: 1px solid green;
+  border-radius: 4px;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.brokerTable {
+  width: 90%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+}
+
+.manageBroker h2 {
+  text-align: center;
+  color: #091436;
+  margin-bottom: 1.5rem;
+}
+
+.brokerTable thead {
+  background-color: #091436;
+  color: #ffffff;
+}
+
+.brokerTable th,
+.brokerTable td {
+  padding: 1rem;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.brokerTable img {
+  max-width: 50px;
+  height: auto;
+  border-radius: 4px;
+}
+
+.brokerTable .editButton,
+.brokerTable .deleteButton {
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 5px;
+}
+
+.brokerTable .editButton {
+  background-color: #007bff;
+  color: white;
+}
+
+.brokerTable .editButton:hover {
+  background-color: #0056b3;
+}
+
+.brokerTable .deleteButton, .addBrokerButton {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.brokerTable .deleteButton:hover {
+  background-color: #e60000;
+}
+
+.addBrokerButton {
+  padding: 1rem 4rem;
+  border: none;
+  background-color: #FF6B00;
+  border-radius: 7px;
+  font-size: 16px;
+  margin: 5px 40%;
+}
+.addBrokerButton:hover {
+  background-color: #E55D00;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .brokerForm {
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .brokerTable {
+    font-size: 0.9rem;
+  }
+
+  .brokerTable th,
+  .brokerTable td {
+    padding: 0.8rem;
+  }
+
+  /* .brokerTable .editButton,
+  .brokerTable .deleteButton {
+    padding: 0.4rem 0.8rem;
+  } */
+
+  .addBrokerButton {
+    padding: 0.5rem 2rem;
+    background-color: #FF6B00;
+    font-size: 14px;
+    margin: 0 40%;
+  }
+}
+
+@media (max-width: 480px) {
+  .brokerTable th,
+  .brokerTable td {
+    padding: 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  .brokerTable .editButton,
+  .brokerTable .deleteButton {
+    padding: 0.5rem;
+    /* font-size: 0.8rem; */
+  }
+  .addBrokerButton {
+    padding: 1rem 3rem;
+    background-color: #FF6B00;
+    font-size: 14px;
+    margin: 0 40%;
+  }
+}
+
+.brokerTable .editButton {
+  background-color: #007bff;
+  color: white;
+}
+
+.brokerTable .editButton:hover {
+  background-color: #0056b3;
+}
+
+.brokerTable .deleteButton {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.brokerTable .deleteButton:hover {
+  background-color: #e60000;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .brokerForm {
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .brokerTable {
+    font-size: 0.9rem;
+  }
+
+  .brokerTable th,
+  .brokerTable td {
+    padding: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .brokerTable th,
+  .brokerTable td {
+    padding: 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  .brokerTable .editButton,
+  .brokerTable .deleteButton {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+  }
+}
