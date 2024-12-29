@@ -12,24 +12,30 @@ exports.verifyToken = (req, res, next) => {
 
     // Check if token is present
     if (!token) {
-        return res.status(403).send('Token is required');
+        return res.status(403).json({ error: 'Token is required' });
     }
 
     // Split the 'Bearer' from the token value
     const bearerToken = token.split(' ')[1];  // Get the token part after 'Bearer'
-    
+
     if (!bearerToken) {
-        return res.status(403).send('Token is required');
+        return res.status(403).json({ error: 'Token is required' });
     }
 
     try {
         // Decode the JWT using the secret
         const decoded = jwt.verify(bearerToken, process.env.JWT_SECRET);
-        req.user = decoded;  // Attach the decoded token data to the request object
+
+        // Attach the decoded token data to the request object
+        req.user = decoded;
         next();
     } catch (error) {
+        // Handle specific JWT errors for clarity
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Token has expired' });
+        }
         console.error(error);
-        res.status(401).send('Invalid or expired token');
+        return res.status(401).json({ error: 'Invalid token' });
     }
 };
 
@@ -37,14 +43,12 @@ exports.verifyToken = (req, res, next) => {
 exports.restrictTo = (roles) => {
     return (req, res, next) => {
         // Map the numeric role ID from the token to a role string
-        const userRole = roleMap[req.user.role];  // `roleMap[1]` will return 'admin'
+        const userRole = roleMap[req.user.role] || req.user.role;  // Supports both numeric IDs and role names
 
-        console.log('User role from token:', userRole);
-        console.log('Allowed roles:', roles);
 
         if (!roles.includes(userRole)) {
             console.error('Access denied for role:', userRole);
-            return res.status(403).send('Access denied');
+            return res.status(403).json({ error: 'Access denied' });
         }
 
         next();
