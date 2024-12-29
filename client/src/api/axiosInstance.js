@@ -1,19 +1,18 @@
-import axios from "axios";
+import axios from 'axios';
 
 // Create an Axios instance
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000/users", // Replace with your API base URL
-  timeout: 5000, // Set a timeout (optional)
+  baseURL: 'http://localhost:5000', // Replace with your API base URL
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 
-// Add a request interceptor (optional)
+// Add a request interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
-    // Add auth token if available
-    const token = localStorage.getItem("authToken");
+    // Get token from localStorage and attach it to headers
+    const token = localStorage.getItem('authToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -24,14 +23,14 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// Add a response interceptor (optional)
+// Add a response interceptor (for handling 401 errors globally)
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Handle errors globally (optional)
+    // Handle token expiration or unauthorized access
     if (error.response?.status === 401) {
-      localStorage.removeItem("authToken"); // Clear token on unauthorized
-      window.location.href = "/login"; // Redirect to login
+      localStorage.removeItem('authToken'); // Remove the token if expired
+      window.location.href = '/login'; // Redirect to login page
     }
     return Promise.reject(error);
   }
