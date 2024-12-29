@@ -7,24 +7,50 @@ exports.registerUser = async (req, res) => {
     const { username, password, email } = req.body;
 
     try {
+        if (!username || !password || !email) {
+            return res.status(400).json({ message: 'All fields are required.' });
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10);
+
         db.query(
             'INSERT INTO User (username, password, email, role_id) VALUES (?, ?, ?, ?)',
-            [username, hashedPassword, email, 2], // Assuming "2" is the default role for regular users
+            [username, hashedPassword, email, 2], // Default role_id = 2 (user)
             (err, results) => {
                 if (err) {
-                    console.error(err);
-                    return res.status(500).send('Database error');
+                    console.error("Database Error:", err.message);
+                    if (err.code === 'ER_DUP_ENTRY') {
+                        return res.status(400).json({
+                            message: 'Username or email already exists',
+                        });
+                    }
+                    return res.status(500).json({ message: 'Database error' });
                 }
-                res.status(201).send('User registered successfully');
+
+                // Get the inserted user ID (assuming user_id is auto-generated)
+                const userId = results.insertId;
+
+                // Generate JWT token after successful registration
+                const token = jwt.sign(
+                    { userId, username, role: 2 }, // Customize the payload as necessary
+                    process.env.JWT_SECRET, // Ensure this secret is set in your environment variables
+                    { expiresIn: '1h' } // Optional: set an expiration time for the token
+                );
+
+                // Respond with the token and any other necessary data (like role)
+                res.status(201).json({
+                    message: 'User registered successfully',
+                    token: token,
+                    role_id: 2, // Send back the user's role if necessary
+                });
             }
         );
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Server error');
+        console.error("Server Error:", error.message);
+        res.status(500).json({ message: 'Server error' });
     }
 };
-
+// Login user (Public)
 // Login user (Public)
 exports.loginUser = (req, res) => {
     const { username, password } = req.body;
@@ -53,9 +79,11 @@ exports.loginUser = (req, res) => {
             { expiresIn: '1h' } // Set expiration for the token
         );
 
-        res.json({ token });
+        // Send response with token and role_id
+        res.json({ token, role_id: user.role_id }); // Include role_id in response
     });
 };
+
 
 // Get all users (Admin-only)
 exports.getAllUsers = (req, res) => {
