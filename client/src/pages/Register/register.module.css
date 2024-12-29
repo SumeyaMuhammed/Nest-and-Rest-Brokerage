@@ -39,7 +39,7 @@
   color: #333;
 }
 
-.formContainer {
+.containerRegister .formContainer {
   display: flex;
   flex-direction: column;
   gap: 10px; /* Consistent spacing between inputs */
