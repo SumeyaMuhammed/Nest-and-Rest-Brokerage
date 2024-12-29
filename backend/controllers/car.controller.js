@@ -40,7 +40,8 @@ exports.getCarById = (req, res) => {
 // Function to add a new car with image upload
 exports.addCarWithImage = (req, res) => {
     const { title, description, price, make, model, year, mileage, color, broker_id } = req.body;
-
+    console.log('Received body:', req.body); // Log request body
+    console.log('Received file:', req.file); // Log uploaded file information
     // Get the uploaded image path from Multer
     const imageUrl = req.file ? 'uploads/' + req.file.filename : null; // Ensure to set the path relative to your root folder
 
@@ -52,6 +53,7 @@ exports.addCarWithImage = (req, res) => {
             if (err) {
                 console.error(err);
                 return res.status(500).send('Database error');
+                
             }
 
             res.status(201).send('Car added successfully with image');
@@ -61,7 +63,9 @@ exports.addCarWithImage = (req, res) => {
 
 // Function to update a car with image upload
 exports.updateCarWithImage = (req, res) => {
+    console.log('Received body:', req.body); 
     const carId = req.params.id;
+    console.log('Received file:', req.file); 
     const { title, description, price, make, model, year, mileage, color, broker_id } = req.body;
 
     // Get the uploaded image path from Multer
@@ -89,7 +93,8 @@ exports.updateCarWithImage = (req, res) => {
 // Function to delete a car by ID
 exports.deleteCar = (req, res) => {
     const carId = req.params.id;
-
+    console.log('Deleting car with ID:', carId); 
+    console.log('Received carId:', carId);
     // Delete the car from the database
     db.query('DELETE FROM Car WHERE car_id = ?', [carId], (err, results) => {
         if (err) {
