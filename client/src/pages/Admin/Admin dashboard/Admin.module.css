@@ -1,92 +1,93 @@
-/* 
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f9f9f9;
+/* Overall Dashboard Styling */
+.admin {
+  padding: 150px 40px 0px;
+  background-color: #f7f8fc;
+  min-height: 100vh;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+}
+
+.admin .dashboardHeading {
+  font-size: 2.8rem;
+  font-weight: bold;
   color: #333;
 }
 
-.adminSection header {
-  background-color: #091436;
-  color: white;
-  padding: 1rem;
+.admin .dashboardSubheading {
+  font-size: 1.2rem;
+  color: #666;
+  margin: 10px 0 30px;
+}
+
+/* Grid Layout */
+.admin .gridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Individual Card Styling */
+.admin .card {
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 20px;
   text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
 }
 
-.adminSection header h1 {
-  color: #FF6600;
+.admin .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
-.adminSection header h1 {
-  margin: 0;
+.admin .iconWrapper {
+  font-size: 4rem;
+  color: #4caf50;
+  margin-bottom: 15px;
 }
 
-.adminSection main {
-  padding: 2rem;
+.admin .cardTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
 }
 
-.adminSection section {
-  background: white;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.admin .cardDescription {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 20px;
 }
 
-.adminSection section h2 {
-  margin-top: 0;
-  color: #091436;
-}
-
-.adminSection form {
-  display: flex;
-  flex-direction: column;
-}
-
-.adminSection form label {
-  margin: 0.5rem 0 0.2rem;
-  font-weight: bold;
-}
-
-.adminSection form input,
-.adminSection form textarea,
-.adminSection form button {
-  padding: 0.8rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.adminSection form textarea {
-  resize: vertical;
-}
-
-.adminSection form button {
-  background-color: #FF6B00;
-  color: white;
+.admin .cardButton {
+  background: #FF6B00;
+  color: #fff;
   border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
-.adminSection form button:hover {
-  background-color: #E55D00;
-} */
-.admin-dashboard {
-  padding: 2rem;
-  background-color: #f9f9f9;
+.admin .cardButton:hover {
+  background: #E55D00;
 }
 
-.admin-dashboard h1 {
-  color: #091436;
-  margin-bottom: 2rem;
-}
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin .dashboardHeading {
+    font-size: 2rem;
+  }
 
-.admin-dashboard section {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
+  .admin .cardButton {
+    padding: 8px 15px;
+    font-size: 0.8rem;
+  }
 }
-
