@@ -3,8 +3,14 @@ const path = require('path');
 
 // Function to get all houses
 exports.getAllHouses = (req, res) => {
-    db.query('SELECT * FROM House', (err, results) => {
-        if (err){
+    const query = `
+    SELECT House.*, Broker.email, Broker.phone
+    FROM House
+    JOIN Broker ON House.broker_id = Broker.broker_id
+    `;
+
+    db.query(query, (err, results) => {
+        if (err) {
             console.error(err);
             return res.status(500).send('Database error');
         }
@@ -21,7 +27,14 @@ exports.getAllHouses = (req, res) => {
 exports.getHouseById = (req, res) => {
     const houseId = req.params.id;
 
-    db.query('SELECT * FROM House WHERE house_id = ?', [houseId], (err, results) => {
+    const query = `
+        SELECT House.*, Broker.email, Broker.phone
+        FROM House
+        JOIN Broker ON House.broker_id = Broker.broker_id
+        WHERE House.house_id = ?
+    `;
+
+    db.query(query, [houseId], (err, results) => {
         if (err) {
             console.error(err);
             return res.status(500).send('Database error');
@@ -32,6 +45,7 @@ exports.getHouseById = (req, res) => {
         }
 
         res.json(results[0]);
+        console.log(results[0]);
     });
 };
 
@@ -60,23 +74,43 @@ exports.addHouseWithImage = (req, res) => {
 exports.updateHouseWithImage = (req, res) => {
     const houseId = req.params.id;
     const { title, description, price, num_bedrooms, num_bathrooms, area_sqft, location, broker_id } = req.body;
-
+    
     const imageUrl = req.file ? 'uploads/' + req.file.filename : null;
-
+    
+    // First, fetch the current image URL if no new file is uploaded
     db.query(
-        'UPDATE House SET title = ?, description = ?, price = ?, num_bedrooms = ?, num_bathrooms = ?, area_sqft = ?, location = ?, broker_id = ?, image_url = ? WHERE house_id = ?',
-        [title, description, price, num_bedrooms, num_bathrooms, area_sqft, location, broker_id, imageUrl, houseId],
+        'SELECT image_url FROM House WHERE house_id = ?',
+        [houseId],
         (err, results) => {
             if (err) {
                 console.error(err);
                 return res.status(500).send('Database error');
             }
-
-            if (results.affectedRows === 0) {
+            
+            if (results.length === 0) {
                 return res.status(404).send('House not found');
             }
-
-            res.send('House updated successfully with new image');
+            
+            const currentImageUrl = results[0].image_url;
+            const updatedImageUrl = imageUrl || currentImageUrl;
+            
+            // Update the house details with the (possibly unchanged) image URL
+            db.query(
+                'UPDATE House SET title = ?, description = ?, price = ?, num_bedrooms = ?, num_bathrooms = ?, area_sqft = ?, location = ?, broker_id = ?, image_url = ? WHERE house_id = ?',
+                [title, description, price, num_bedrooms, num_bathrooms, area_sqft, location, broker_id, updatedImageUrl, houseId],
+                (updateErr, updateResults) => {
+                    if (updateErr) {
+                        console.error(updateErr);
+                        return res.status(500).send('Database error during update');
+                    }
+                    
+                    if (updateResults.affectedRows === 0) {
+                        return res.status(404).send('House not found');
+                    }
+                    
+                    res.send('House updated successfully');
+                }
+            );
         }
     );
 };
