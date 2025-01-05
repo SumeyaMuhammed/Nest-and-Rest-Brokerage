@@ -1,20 +1,23 @@
 const db = require('../database/dbconfig');
-const path = require('path');
 
 // Function to get all cars
 exports.getAllCars = (req, res) => {
-    db.query('SELECT * FROM Car', (err, results) => {
+    const query = `
+        SELECT Car.*, Broker.email, Broker.phone
+        FROM Car
+        JOIN Broker ON Car.broker_id = Broker.broker_id
+    `;
+
+    db.query(query, (err, results) => {
         if (err) {
             console.error(err);
             return res.status(500).send('Database error');
         }
 
-        // Check if results array is empty
         if (results.length === 0) {
             return res.status(404).send('No cars found');
         }
 
-        // Return the results if cars are found
         res.json(results);
     });
 };
@@ -23,7 +26,14 @@ exports.getAllCars = (req, res) => {
 exports.getCarById = (req, res) => {
     const carId = req.params.id;
 
-    db.query('SELECT * FROM Car WHERE car_id = ?', [carId], (err, results) => {
+    const query = `
+        SELECT Car.*, Broker.email, Broker.phone
+        FROM Car
+        JOIN Broker ON Car.broker_id = Broker.broker_id
+        WHERE Car.car_id = ?
+    `;
+
+    db.query(query, [carId], (err, results) => {
         if (err) {
             console.error(err);
             return res.status(500).send('Database error');
@@ -37,65 +47,90 @@ exports.getCarById = (req, res) => {
     });
 };
 
-// Function to add a new car with image upload
+// Function to add a new car (without file upload)
 exports.addCarWithImage = (req, res) => {
-    const { title, description, price, make, model, year, mileage, color, broker_id } = req.body;
-    console.log('Received body:', req.body); // Log request body
-    console.log('Received file:', req.file); // Log uploaded file information
-    // Get the uploaded image path from Multer
-    const imageUrl = req.file ? 'uploads/' + req.file.filename : null; // Ensure to set the path relative to your root folder
+    const { title, description, price, make, model, year, mileage, color, image_url, name } = req.body;
+    console.log('Received body:', req.body); // Debugging logs
 
-    // Insert the new car into the database along with the image path
+    // Find broker_id using the provided name
     db.query(
-        'INSERT INTO Car (title, description, price, make, model, year, mileage, color, broker_id, image_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        [title, description, price, make, model, year, mileage, color, broker_id, imageUrl],
-        (err, results) => {
+        'SELECT broker_id FROM Broker WHERE name = ?',
+        [name],
+        (err, brokerResults) => {
             if (err) {
                 console.error(err);
-                return res.status(500).send('Database error');
-                
+                return res.status(500).send('Database error while fetching broker');
             }
 
-            res.status(201).send('Car added successfully with image');
+            if (brokerResults.length === 0) {
+                return res.status(404).send('Broker not found');
+            }
+
+            const broker_id = brokerResults[0].broker_id;
+
+            // Insert the car details including the image URL
+            db.query(
+                'INSERT INTO Car (title, description, price, make, model, year, mileage, color, broker_id, image_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                [title, description, price, make, model, year, mileage, color, broker_id, image_url],
+                (err, results) => {
+                    if (err) {
+                        console.error(err);
+                        return res.status(500).send('Database error');
+                    }
+
+                    res.status(201).send('Car added successfully');
+                }
+            );
         }
     );
 };
 
-// Function to update a car with image upload
+// Function to update a car (without file upload)
 exports.updateCarWithImage = (req, res) => {
-    console.log('Received body:', req.body); 
     const carId = req.params.id;
-    console.log('Received file:', req.file); 
-    const { title, description, price, make, model, year, mileage, color, broker_id } = req.body;
+    const { title, description, price, make, model, year, mileage, color, image_url, name } = req.body;
 
-    // Get the uploaded image path from Multer
-    const imageUrl = req.file ? 'uploads/' + req.file.filename : null;
-
-    // Update the car details along with the image URL
+    // Find broker_id using the provided name
     db.query(
-        'UPDATE Car SET title = ?, description = ?, price = ?, make = ?, model = ?, year = ?, mileage = ?, color = ?, broker_id = ?, image_url = ? WHERE car_id = ?',
-        [title, description, price, make, model, year, mileage, color, broker_id, imageUrl, carId],
-        (err, results) => {
+        'SELECT broker_id FROM Broker WHERE name = ?',
+        [name],
+        (err, brokerResults) => {
             if (err) {
                 console.error(err);
-                return res.status(500).send('Database error');
+                return res.status(500).send('Database error while fetching broker');
             }
 
-            if (results.affectedRows === 0) {
-                return res.status(404).send('Car not found');
+            if (brokerResults.length === 0) {
+                return res.status(404).send('Broker not found');
             }
 
-            res.send('Car updated successfully with new image');
+            const broker_id = brokerResults[0].broker_id;
+
+            // Update the car details including the image URL
+            db.query(
+                'UPDATE Car SET title = ?, description = ?, price = ?, make = ?, model = ?, year = ?, mileage = ?, color = ?, broker_id = ?, image_url = ? WHERE car_id = ?',
+                [title, description, price, make, model, year, mileage, color, broker_id, image_url, carId],
+                (err, results) => {
+                    if (err) {
+                        console.error(err);
+                        return res.status(500).send('Database error during update');
+                    }
+
+                    if (results.affectedRows === 0) {
+                        return res.status(404).send('Car not found');
+                    }
+
+                    res.send('Car updated successfully');
+                }
+            );
         }
     );
 };
 
-// Function to delete a car by ID
+// Function to delete a car
 exports.deleteCar = (req, res) => {
     const carId = req.params.id;
-    console.log('Deleting car with ID:', carId); 
-    console.log('Received carId:', carId);
-    // Delete the car from the database
+
     db.query('DELETE FROM Car WHERE car_id = ?', [carId], (err, results) => {
         if (err) {
             console.error(err);
