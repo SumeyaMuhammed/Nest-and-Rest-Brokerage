@@ -1,134 +1,180 @@
 const db = require('../database/dbconfig');
-const path = require('path');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-// Function to get all houses
-exports.getAllHouses = (req, res) => {
-    const query = `
-    SELECT House.*, Broker.email, Broker.phone
-    FROM House
-    JOIN Broker ON House.broker_id = Broker.broker_id
-    `;
+// Register a new user (Public)
+exports.registerUser = async (req, res) => {
+    const { username, password, email } = req.body;
 
-    db.query(query, (err, results) => {
+    try {
+        if (!username || !password || !email) {
+            return res.status(400).json({ message: 'All fields are required.' });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        db.query(
+            'INSERT INTO User (username, password, email, role_id) VALUES (?, ?, ?, ?)',
+            [username, hashedPassword, email, 2], // Default role_id = 2 (user)
+            (err, results) => {
+                if (err) {
+                    console.error("Database Error:", err.message);
+                    if (err.code === 'ER_DUP_ENTRY') {
+                        return res.status(400).json({
+                            message: 'Username or email already exists',
+                        });
+                    }
+                    return res.status(500).json({ message: 'Database error' });
+                }
+
+                // Get the inserted user ID (assuming user_id is auto-generated)
+                const userId = results.insertId;
+
+                // Generate JWT token after successful registration
+                const token = jwt.sign(
+                    { userId, username, role: 2 }, // Customize the payload as necessary
+                    process.env.JWT_SECRET, // Ensure this secret is set in your environment variables
+                    { expiresIn: '1h' } // Optional: set an expiration time for the token
+                );
+
+                // Respond with the token and any other necessary data (like role)
+                res.status(201).json({
+                    message: 'User registered successfully',
+                    token: token,
+                    role_id: 2, // Send back the user's role if necessary
+                });
+            }
+        );
+    } catch (error) {
+        console.error("Server Error:", error.message);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+// Login user (Public)
+// Login user (Public)
+exports.loginUser = (req, res) => {
+    const { username, password } = req.body;
+    // console.log(req.body);
+    db.query('SELECT * FROM User WHERE username = ?', [username], async (err, results) => {
         if (err) {
             console.error(err);
             return res.status(500).send('Database error');
         }
 
         if (results.length === 0) {
-            return res.status(404).send('No houses found');
+            return res.status(404).send('User not found');
         }
 
+        const user = results[0];
+        const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordMatch) {
+            return res.status(401).send('Invalid credentials');
+        }
+
+        // Generate JWT token
+        const token = jwt.sign(
+            { userId: user.user_id, role: user.role_id }, // Attach user_id and role to the token
+            process.env.JWT_SECRET, // Use your JWT secret here
+            { expiresIn: '1h' } // Set expiration for the token
+        );
+
+        // Send response with token and role_id
+        res.json({ token, role_id: user.role_id }); // Include role_id in response
+    });
+};
+
+
+// Get all users (Admin-only)
+exports.getAllUsers = (req, res) => {
+    db.query('SELECT user_id, username, email, role_id, status FROM User', (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Database error');
+        }
         res.json(results);
     });
 };
 
-// Function to get a specific house by ID
-exports.getHouseById = (req, res) => {
-    const houseId = req.params.id;
+// Get user by ID (Authenticated)
+exports.getUserById = (req, res) => {
+    const userId = req.params.id;
 
-    const query = `
-        SELECT House.*, Broker.email, Broker.phone
-        FROM House
-        JOIN Broker ON House.broker_id = Broker.broker_id
-        WHERE House.house_id = ?
-    `;
-
-    db.query(query, [houseId], (err, results) => {
+    db.query('SELECT user_id, username, email, role_id, status FROM User WHERE user_id = ?', [userId], (err, results) => {
         if (err) {
             console.error(err);
             return res.status(500).send('Database error');
         }
 
         if (results.length === 0) {
-            return res.status(404).send('House not found');
+            return res.status(404).send('User not found');
         }
 
         res.json(results[0]);
-        console.log(results[0]);
     });
 };
 
-// Function to add a new house with image upload
-exports.addHouseWithImage = (req, res) => {
-    const { title, description, price, num_bedrooms, num_bathrooms, area_sqft, location, broker_id } = req.body;
+// Add new user (Admin-only)
+exports.addUser = async (req, res) => {
+    const { username, password, email, role_id } = req.body;
 
-    // Get the uploaded image path from Multer
-    const imageUrl = req.file ? 'uploads/' + req.file.filename : null;
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-    db.query(
-        'INSERT INTO House (title, description, price, num_bedrooms, num_bathrooms, area_sqft, location, broker_id, image_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        [title, description, price, num_bedrooms, num_bathrooms, area_sqft, location, broker_id, imageUrl],
-        (err, results) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).send('Database error');
-            }
-
-            res.status(201).send('House added successfully with image');
-        }
-    );
-};
-
-// Function to update a house with image upload
-exports.updateHouseWithImage = (req, res) => {
-    const houseId = req.params.id;
-    const { title, description, price, num_bedrooms, num_bathrooms, area_sqft, location, broker_id } = req.body;
-    
-    const imageUrl = req.file ? 'uploads/' + req.file.filename : null;
-    
-    // First, fetch the current image URL if no new file is uploaded
-    db.query(
-        'SELECT image_url FROM House WHERE house_id = ?',
-        [houseId],
-        (err, results) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).send('Database error');
-            }
-            
-            if (results.length === 0) {
-                return res.status(404).send('House not found');
-            }
-            
-            const currentImageUrl = results[0].image_url;
-            const updatedImageUrl = imageUrl || currentImageUrl;
-            
-            // Update the house details with the (possibly unchanged) image URL
-            db.query(
-                'UPDATE House SET title = ?, description = ?, price = ?, num_bedrooms = ?, num_bathrooms = ?, area_sqft = ?, location = ?, broker_id = ?, image_url = ? WHERE house_id = ?',
-                [title, description, price, num_bedrooms, num_bathrooms, area_sqft, location, broker_id, updatedImageUrl, houseId],
-                (updateErr, updateResults) => {
-                    if (updateErr) {
-                        console.error(updateErr);
-                        return res.status(500).send('Database error during update');
-                    }
-                    
-                    if (updateResults.affectedRows === 0) {
-                        return res.status(404).send('House not found');
-                    }
-                    
-                    res.send('House updated successfully');
+        db.query(
+            'INSERT INTO User (username, password, email, role_id) VALUES (?, ?, ?, ?)',
+            [username, hashedPassword, email, role_id],
+            (err, results) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).send('Database error');
                 }
-            );
+                res.status(201).send('User added successfully');
+            }
+        );
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+};
+
+// Update user (Admin-only)
+exports.updateUser = (req, res) => {
+    const userId = req.params.id;
+    const { username, email, role_id, status } = req.body;
+
+    db.query(
+        'UPDATE User SET username = ?, email = ?, role_id = ?, status = ? WHERE user_id = ?',
+        [username, email, role_id, status, userId],
+        (err, results) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send('Database error');
+            }
+
+            if (results.affectedRows === 0) {
+                return res.status(404).send('User not found');
+            }
+
+            res.send('User updated successfully');
         }
     );
 };
 
-// Function to delete a house by ID
-exports.deleteHouse = (req, res) => {
-    const houseId = req.params.id;
+// Delete user (Admin-only)
+exports.deleteUser = (req, res) => {
+    const userId = req.params.id;
 
-    db.query('DELETE FROM House WHERE house_id = ?', [houseId], (err, results) => {
+    db.query('DELETE FROM User WHERE user_id = ?', [userId], (err, results) => {
         if (err) {
             console.error(err);
             return res.status(500).send('Database error');
         }
 
         if (results.affectedRows === 0) {
-            return res.status(404).send('House not found');
+            return res.status(404).send('User not found');
         }
 
-        res.send('House deleted successfully');
+        res.send('User deleted successfully');
     });
 };
