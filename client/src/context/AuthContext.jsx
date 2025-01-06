@@ -7,7 +7,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [role, setRole] = useState("");
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const storedAuthStatus = localStorage.getItem("isAuthenticated") === "true";
@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("isAuthenticated");
     localStorage.removeItem("role");
 
-    navigate("/login"); // Redirect to login page after logout
+    navigate("/login"); 
   };
 
   return (
