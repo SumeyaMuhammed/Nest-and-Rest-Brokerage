@@ -29,10 +29,13 @@ const Register = () => {
       newErrors.email = "Please enter a valid email.";
     }
 
+    // Validate password
     if (!formData.password.trim()) {
       newErrors.password = "Password is required.";
     } else if (formData.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters.";
+    } else if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(formData.password)) {
+      newErrors.password = "Password must include letters, numbers, and special characters.";
     }
 
     if (!formData.confirmPassword.trim()) {
