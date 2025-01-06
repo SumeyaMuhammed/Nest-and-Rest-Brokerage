@@ -2,9 +2,13 @@ import { useState, useEffect } from 'react';
 import axiosInstance from '../../../api/axiosInstance';
 import classes from './AddHouse.module.css';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
+import Layout from '../../../components/Layout/Layout';
+
+const baseURL = axiosInstance.defaults.baseURL;
 
 const ManageHouse = () => {
   const [houses, setHouses] = useState([]);
+  const [brokers, setBrokers] = useState([]); 
   const [newHouse, setNewHouse] = useState({
     title: '',
     description: '',
@@ -14,7 +18,7 @@ const ManageHouse = () => {
     area_sqft: '',
     location: '',
     image_url: '',
-    broker_id: '',
+    name: '', // Store the selected broker's ID
   });
   const [message, setMessage] = useState('');
   const [isEditing, setIsEditing] = useState(false);
@@ -22,18 +26,34 @@ const ManageHouse = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
 
   useEffect(() => {
-    // Fetch houses from the API
-    const fetchHouses = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axiosInstance.get('/houses');
-        setHouses(response.data);
+        const [housesResponse, brokersResponse] = await Promise.all([
+          axiosInstance.get('/houses'),
+          axiosInstance.get('/brokers') // Fetch brokers from the API
+        ]);
+
+        const availableBrokers = brokersResponse.data.filter(broker => broker.status === 'available');
+        setHouses(Array.isArray(housesResponse.data) ? housesResponse.data : []);
+        // setHouses(housesResponse);
+        setBrokers(availableBrokers);
       } catch (error) {
-        console.error('Error fetching houses:', error);
+        console.error('Error fetching data:', error);
       }
     };
 
-    fetchHouses();
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage('');
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -46,7 +66,6 @@ const ManageHouse = () => {
   const handleAddHouse = async (e) => {
     e.preventDefault();
 
-    // Client-side validation
     if (!newHouse.title) {
       setMessage('Error: House title is required.');
       return;
@@ -66,7 +85,6 @@ const ManageHouse = () => {
 
     try {
       if (isEditing) {
-        // Update existing house
         await axiosInstance.put(`/houses/update/${editingHouseId}`, newHouse);
         setHouses((prevHouses) =>
           prevHouses.map((house) =>
@@ -77,14 +95,11 @@ const ManageHouse = () => {
         setIsEditing(false);
         setEditingHouseId(null);
       } else {
-        // Add new house
         const response = await axiosInstance.post('/houses/', newHouse);
-        console.log(response.data);
         setHouses((prevHouses) => [...prevHouses, response.data]);
         setMessage('House added successfully.');
       }
 
-      // Reset form
       setNewHouse({
         title: '',
         description: '',
@@ -94,24 +109,12 @@ const ManageHouse = () => {
         area_sqft: '',
         location: '',
         image_url: '',
-        broker_id: '',
+        name: '', // Reset name
       });
       setIsFormVisible(false);
     } catch (error) {
-      if (error.response) {
-        const { data, status } = error.response;
-
-        if (status === 400) {
-          setMessage(data.message || 'Invalid input. Please check all fields.');
-        } else if (status === 500) {
-          setMessage('Server error. Please try again later.');
-        } else {
-          setMessage('Failed to add/update house. Unexpected error occurred.');
-        }
-      } else {
-        console.error('Unexpected error:', error);
-        setMessage('Failed to add/update house due to an unknown error.');
-      }
+      console.error('Error:', error);
+      setMessage('Failed to add/update house. Please try again later.');
     }
   };
 
@@ -135,130 +138,145 @@ const ManageHouse = () => {
   };
 
   return (
-    <div className={classes.manageHouse}>
-      <h2>Manage Houses</h2>
-      {message && <div className={classes.message}>{message}</div>}
+    <Layout>
+      <div className={classes.manageHouse}>
+        {message && <div className={classes.successMessage}>{message}</div>}
 
-      {!isFormVisible && (
-        <>
-          <button onClick={() => setIsFormVisible(true)} className={classes.addButton}>Add House</button>
-
-          <table className={classes.houseTable}>
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Bedrooms</th>
-                <th>Bathrooms</th>
-                <th>Area (sqft)</th>
-                <th>Location</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {houses.map((house) => (
-                <tr key={house.house_id}>
-                  <td>{house.title}</td>
-                  <td>{house.description}</td>
-                  <td>{house.price}</td>
-                  <td>{house.num_bedrooms}</td>
-                  <td>{house.num_bathrooms}</td>
-                  <td>{house.area_sqft}</td>
-                  <td>{house.location}</td>
-                  <td>
-                    <button
-                      className={classes.editButton}
-                      onClick={() => handleEditHouse(house.house_id)}
-                    >
-                      <FaEdit />
-                    </button>
-                    <button
-                      className={classes.deleteButton}
-                      onClick={() => handleDeleteHouse(house.house_id)}
-                    >
-                      <FaTrashAlt />
-                    </button>
-                  </td>
+        {!isFormVisible && (
+          <>
+            <div className={classes.buttonbox}>
+              <button onClick={() => setIsFormVisible(true)} className={classes.addButton}>Add House</button>
+            </div>
+            <table className={classes.houseTable}>
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Price</th>
+                  <th>Bedrooms</th>
+                  <th>Bathrooms</th>
+                  <th>Area (sqft)</th>
+                  <th>Location</th>
+                  <th>Broker name</th>
+                  <th>Image</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </>
-      )}
+              </thead>
+              <tbody>
+                {houses?.map((house) => (
+                  <tr key={house?.house_id}>
+                    <td>{house?.title}</td>
+                    <td>{house?.description}</td>
+                    <td>{house?.price}</td>
+                    <td>{house?.num_bedrooms}</td>
+                    <td>{house?.num_bathrooms}</td>
+                    <td>{house?.area_sqft}</td>
+                    <td>{house?.location}</td>
+                    <td>{brokers?.find((broker) => broker?.broker_id === house?.broker_id)?.name}</td>
+                    <td>
+                      <img
+                        src={house.image_url
+                          ? house.image_url.startsWith('http')
+                            ? house.image_url
+                            : `${baseURL}${house.image_url}`
+                          : 'default-placeholder.jpg'}
+                        alt="House"
+                      />
+                    </td>
+                    <td>
+                      <button className={classes.editButton} onClick={() => handleEditHouse(house.house_id)}>
+                        <FaEdit />
+                      </button>
+                      <button className={classes.deleteButton} onClick={() => handleDeleteHouse(house.house_id)}>
+                        <FaTrashAlt />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
+        )}
 
-      {isFormVisible && (
-        <form className={classes.houseForm} onSubmit={handleAddHouse}>
-          <h3>{isEditing ? 'Edit House' : 'Add House'}</h3>
-          <input
-            type="text"
-            name="title"
-            placeholder="Title"
-            value={newHouse.title}
-            onChange={handleInputChange}
-            required
-          />
-          <textarea
-            name="description"
-            placeholder="Description"
-            value={newHouse.description}
-            onChange={handleInputChange}
-          />
-          <input
-            type="number"
-            name="price"
-            placeholder="Price"
-            value={newHouse.price}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="number"
-            name="num_bedrooms"
-            placeholder="Number of Bedrooms"
-            value={newHouse.num_bedrooms}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="number"
-            name="num_bathrooms"
-            placeholder="Number of Bathrooms"
-            value={newHouse.num_bathrooms}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="number"
-            name="area_sqft"
-            placeholder="Area (sqft)"
-            value={newHouse.area_sqft}
-            onChange={handleInputChange}
-          />
-          <textarea
-            name="location"
-            placeholder="Location"
-            value={newHouse.location}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            name="image_url"
-            placeholder="Image URL"
-            value={newHouse.image_url}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            name="broker_id"
-            placeholder="Broker ID"
-            value={newHouse.broker_id}
-            onChange={handleInputChange}
-          />
-          <button type="submit">{isEditing ? 'Update House' : 'Add House'}</button>
-        </form>
-      )}
-    </div>
+        {isFormVisible && (
+          <form className={classes.houseForm} onSubmit={handleAddHouse}>
+            <h3>{isEditing ? 'Edit House' : 'Add House'}</h3>
+            <input
+              type="text"
+              name="title"
+              placeholder="Title"
+              value={newHouse.title}
+              onChange={handleInputChange}
+              required
+            />
+            <textarea
+              name="description"
+              placeholder="Description"
+              value={newHouse.description}
+              onChange={handleInputChange}
+            />
+            <input
+              type="number"
+              name="price"
+              placeholder="Price"
+              value={newHouse.price}
+              onChange={handleInputChange}
+              required
+            />
+            <input
+              type="number"
+              name="num_bedrooms"
+              placeholder="Number of Bedrooms"
+              value={newHouse.num_bedrooms}
+              onChange={handleInputChange}
+              required
+            />
+            <input
+              type="number"
+              name="num_bathrooms"
+              placeholder="Number of Bathrooms"
+              value={newHouse.num_bathrooms}
+              onChange={handleInputChange}
+              required
+            />
+            <input
+              type="number"
+              name="area_sqft"
+              placeholder="Area (sqft)"
+              value={newHouse.area_sqft}
+              onChange={handleInputChange}
+            />
+            <textarea
+              name="location"
+              placeholder="Location"
+              value={newHouse.location}
+              onChange={handleInputChange}
+            />
+            <input
+              type="text"
+              name="image_url"
+              placeholder="Image URL"
+              value={newHouse.image_url}
+              onChange={handleInputChange}
+            />
+            <select
+              name="name"
+              value={newHouse.name}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="">Select Broker</option>
+              {brokers.map((broker) => (
+                <option key={broker.id} value={broker.id}>
+                  {broker.name}
+                </option>
+              ))}
+            </select>
+            <button type="submit">{isEditing ? 'Update House' : 'Add House'}</button>
+          </form>
+        )}
+      </div>
+    </Layout>
   );
 };
 
