@@ -11,6 +11,6 @@ const Layout = ({ children }) => {
   );
 };
 Layout.propTypes = {
-  children: PropTypes.node.isRequired, // 'children' is required and should be any renderable React node
+  children: PropTypes.node.isRequired,
 };
 export default Layout;
