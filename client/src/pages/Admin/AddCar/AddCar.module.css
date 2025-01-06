@@ -1,6 +1,8 @@
 .manageCar {
   background-color: #f9f9f9;
   padding: 1rem;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 150px 0;
 }
 
 .carForm {
@@ -48,7 +50,7 @@
 }
 
 /* Success Message */
-.successMessage {
+.manageCar .successMessage {
   color: green;
   background-color: #e6ffe6;
   padding: 10px;
@@ -57,6 +59,11 @@
   text-align: center;
   max-width: 600px;
   margin: 0 auto 2rem;
+}
+
+.manageCar .buttonBox {
+  margin: 0 auto;
+  width: 100%;
 }
 
 .carTable {
@@ -85,6 +92,20 @@
   border: 1px solid #ddd;
 }
 
+ /* Odd rows */
+.carTable tbody tr:nth-child(odd) {
+  background-color: #eeeeee;
+}
+
+/* Even rows */
+.carTable tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+/* Optional: Highlight row on hover */
+.carTable tbody tr:hover {
+  background-color: #dddddd;
+}
 .carTable img {
   max-width: 80px;
   height: auto;
@@ -121,12 +142,15 @@
 }
 
 .addCarButton {
-  padding: 1rem 4rem;
+  padding: 1rem 3rem;
   border: none;
   background-color: #FF6B00;
   border-radius: 7px;
-  font-size: 16px;
-  margin: 5px 40%;
+  font-size: 20px;
+  color: #fffdfd;
+  margin: 10px auto;
+  display: block;
+
 }
 
 .addCarButton:hover {
@@ -150,10 +174,8 @@
   }
 
   .addCarButton {
-    padding: 0.5rem 2rem;
-    background-color: #ff6b00;
-    font-size: 14px;
-    margin: 0 40%;
+    padding: 1rem 2rem;
+    font-size: 16px;
   }
 }
 
