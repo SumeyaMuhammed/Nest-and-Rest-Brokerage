@@ -1,5 +1,7 @@
 .manageBroker {
   background-color: #f9f9f9;
+  margin: 150px 0;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .brokerForm {
@@ -58,6 +60,10 @@
   margin: 0 auto 2rem;
 }
 
+.buttonbox {
+  margin: 0 auto;
+}
+
 .brokerTable {
   width: 90%;
   border-collapse: collapse;
@@ -73,7 +79,7 @@
 }
 
 .brokerTable thead {
-  background-color: #091436;
+  background-color: #091436 !important;
   color: #ffffff;
 }
 
@@ -82,6 +88,21 @@
   padding: 1rem;
   text-align: center;
   border: 1px solid #ddd;
+}
+
+ /* Odd rows */
+ .brokerTable tbody tr:nth-child(odd) {
+  background-color: #eeeeee;
+}
+
+/* Even rows */
+.brokerTable tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+/* Optional: Highlight row on hover */
+.brokerTable tbody tr:hover {
+  background-color: #dddddd;
 }
 
 .brokerTable img {
@@ -120,12 +141,14 @@
 }
 
 .addBrokerButton {
-  padding: 1rem 4rem;
+  padding: 1rem 3rem;
   border: none;
   background-color: #FF6B00;
   border-radius: 7px;
-  font-size: 16px;
-  margin: 5px 40%;
+  font-size: 20px;
+  color: #fffdfd;
+  margin: 10px auto;
+  display: block;
 }
 .addBrokerButton:hover {
   background-color: #E55D00;
@@ -154,10 +177,8 @@
   } */
 
   .addBrokerButton {
-    padding: 0.5rem 2rem;
-    background-color: #FF6B00;
-    font-size: 14px;
-    margin: 0 40%;
+    padding: 1rem 2rem;
+    font-size: 16px;
   }
 }
 
@@ -174,10 +195,8 @@
     /* font-size: 0.8rem; */
   }
   .addBrokerButton {
-    padding: 1rem 3rem;
-    background-color: #FF6B00;
+    padding: 0.5rem 1.5rem;
     font-size: 14px;
-    margin: 0 40%;
   }
 }
 
