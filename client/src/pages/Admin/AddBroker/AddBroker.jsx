@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axiosInstance from '../../../api/axiosInstance';
 import classes from './AddBroker.module.css'; 
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
+import Layout from '../../../components/Layout/Layout';
 
 const ManageBroker = () => {
   const [brokers, setBrokers] = useState([]);
@@ -30,7 +31,16 @@ const ManageBroker = () => {
 
     fetchBrokers();
   }, []);
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage('');
+      }, 5000);
 
+      // Cleanup the timer if component unmounts or message changes
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewBroker({
@@ -90,15 +100,15 @@ const ManageBroker = () => {
   };
 
   return (
+    <Layout>
     <div className={classes.manageBroker}>
-      <h2>Manage Brokers</h2>
       {message && <div className={classes.successMessage}>{message}</div>}
 
       {!isFormVisible && (
         <>
-        <div></div>
+        <div className={classes.buttonBox}>
           <button onClick={() => setIsFormVisible(true)} className={classes.addBrokerButton}>Add Broker</button>
-
+          </div>
           <table className={classes.brokerTable}>
             <thead>
               <tr>
@@ -184,6 +194,7 @@ const ManageBroker = () => {
         </form>
       )}
     </div>
+    </Layout>
   );
 };
 
