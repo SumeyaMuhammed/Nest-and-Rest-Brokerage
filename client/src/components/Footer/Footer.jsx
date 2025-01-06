@@ -15,7 +15,7 @@ const Footer = () => {
             <a href="#"><FaFacebookF /></a> 
           </div>
           <div>
-            <p>Developed by:</p>
+            <p>Developed by: Sumeya Muhammed</p>
           </div>
         </div>
       </footer>
