@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 /* Dashboard Container */
@@ -49,7 +50,7 @@
 }
 
 .userDashboard .searchInput:focus {
-  border-color: #ff4500; /* Updated focus color to orange */
+  border-color: #ff4500;
   box-shadow: 0 0 2px rgba(255, 69, 0, 0.5);
 }
 
@@ -73,7 +74,7 @@
   color: #333;
   text-transform: uppercase;
   letter-spacing: 1px;
-  border-bottom: 2px solid #ff4500; /* Added bottom border */
+  border-bottom: 2px solid #ff4500; 
   display: inline-block;
   padding-bottom: 5px;
 }
@@ -91,7 +92,7 @@
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border-bottom: 3px solid #ff4500; /* Added bottom border to card */
+  border-bottom: 3px solid #ff4500; 
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -145,7 +146,17 @@
   background-color: #0056b3;
 }
 
-/* Responsive Design */
+.cardContent a {
+  text-decoration:none;
+  color: #ff4500;
+  transition: all 0.3s ease-in-out;
+}
+
+.cardContent a:hover {
+  color: #333;
+  text-decoration:underline;
+}
+
 @media (max-width: 768px) {
   .userDashboard .introSection h1 {
     font-size: 2rem;
@@ -158,4 +169,126 @@
   .userDashboard .cardContent h3 {
     font-size: 1.2rem;
   }
+}
+/* Search Bar Wrapper */
+.userDashboard .searchBarWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+}
+
+.userDashboard .searchInput {
+  width: 100%;
+  padding: 12px 40px 12px 15px; 
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  outline: none;
+}
+
+.userDashboard .searchIcon {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #555;
+}
+
+/* Filter Button */
+.userDashboard .filterButton {
+  margin-left: 15px;
+  background-color: #ff4500;
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userDashboard .filterButton:hover {
+  background-color: #e03e00;
+}
+
+.userDashboard .filterButton i {
+  font-size: 1.2rem;
+}
+/* Filter Section */
+.userDashboard .filterSection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.userDashboard .filterSection select,
+.userDashboard .filterSection input {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  outline: none;
+  width: 200px;
+  margin: 5px;
+}
+
+.userDashboard .filterSection select:focus,
+.userDashboard .filterSection input:focus {
+  border-color: #ff4500;
+  box-shadow: 0 0 2px rgba(255, 69, 0, 0.5);
+}
+
+.userDashboard .filterButton {
+  background-color: #ff4500;
+  color: white;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.userDashboard .filterButton:hover {
+  background-color: #e03e00;
+}
+
+.userDashboard .filterButton i {
+  margin-right: 8px;
+  font-size: 1.2rem;
+}
+
+.userDashboard .filterSection input[type="number"] {
+  width: 180px; 
+}
+
+.userDashboard .filterSection input[type="text"] {
+  width: 200px;
+}
+.navSection {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.navLink {
+  font-size: 22px;
+  font-weight: bold;
+  color: #ff4500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .2s ease-in-out;
+}
+
+.navLink:hover {
+  transform: scale(1.08);
 }
