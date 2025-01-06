@@ -26,33 +26,32 @@
 .nav {
   display: flex;
   align-items: center;
-  gap: 20px; /* Add spacing between links */
+  gap: 20px; 
 }
 
 .nav.active {
   display: flex;
 }
 
-/* Hidden on Smaller Screens (Handled via Media Query) */
 @media (max-width: 768px) {
   .nav {
-    display: none; /* Hide by default for smaller screens */
+    display: none;
     flex-direction: column;
     background-color: #0d0b2a;
     position: absolute;
-    top: 60px; /* Align dropdown with header */
+    top: 60px;
     right: 0;
     width: 100%;
-    padding: 10px 0; /* Reduced padding for dropdown */
+    padding: 10px 0; 
     text-align: center;
   }
 
   .nav.active {
-    display: flex; /* Show when active on smaller screens */
+    display: flex; 
   }
 }
 
-/* Navigation Links Styling */
+
 .navLink {
   text-decoration: none;
   color: white;
@@ -82,7 +81,7 @@
 
 /* Hamburger Menu Button */
 .hamburger {
-  display: none; /* Hidden on larger screens */
+  display: none; 
   background: none;
   border: none;
   color: white;
@@ -97,9 +96,9 @@
 .hamburger:hover{
   background-color: #E55D00;
 }
-/* Media Query for Smaller Screens */
+
 @media (max-width: 768px) {
   .hamburger {
-    display: flex; /* Show only on smaller screens */
+    display: flex; 
   }
 }
