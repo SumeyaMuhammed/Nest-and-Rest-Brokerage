@@ -1,6 +1,7 @@
 .manageHouse {
   background-color: #f9f9f9;
-  padding: 1rem;
+  margin: 150px 0;
+  font-family: Arial, sans-serif;
 }
 
 .houseForm {
@@ -58,6 +59,10 @@
   margin: 0 auto 2rem;
 }
 
+.buttonbox {
+  margin: 0 auto;
+}
+
 .houseTable {
   width: 90%;
   border-collapse: collapse;
@@ -82,6 +87,21 @@
   padding: 1rem;
   text-align: center;
   border: 1px solid #ddd;
+}
+
+ /* Odd rows */
+ .houseTable tbody tr:nth-child(odd) {
+  background-color: #eeeeee;
+}
+
+/* Even rows */
+.houseTable tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+/* Optional: Highlight row on hover */
+.houseTable tbody tr:hover {
+  background-color: #dddddd;
 }
 
 .houseTable img {
@@ -120,12 +140,14 @@
 }
 
 .addButton {
-  padding: 1rem 4rem;
+  padding: 1rem 3rem;
   border: none;
   background-color: #FF6B00;
   border-radius: 7px;
-  font-size: 16px;
-  margin: 5px 40%;
+  font-size: 20px;
+  margin: 10px auto;
+  color: white;
+  display: block;
 }
 
 .addButton:hover {
@@ -148,10 +170,9 @@
     padding: 0.8rem;
   }
 
-  .addHouseButton {
-    padding: 0.5rem 2rem;
-    font-size: 14px;
-    /* margin: 0 10rem 0 30rem; */
+  .addButton {
+    padding: 1rem 2rem;
+    font-size: 16px;
   }
 }
 
@@ -168,7 +189,7 @@
     font-size: 0.8rem;
   }
 
-  .addHouseButton {
+  .addButton {
     padding: 0.5rem 1.5rem;
     font-size: 14px;
   }
