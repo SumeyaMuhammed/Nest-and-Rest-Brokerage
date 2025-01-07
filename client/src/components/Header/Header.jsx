@@ -1,16 +1,14 @@
-// src/components/Header.jsx
 import { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import classes from "./header.module.css";
-import { Link, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { useAuth } from "../../context/useAuth"; // import the context
-
+import { useAuth } from "../../context/useAuth"; 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isAuthenticated, logout } = useAuth(); // Get auth state and logout function
-  const navigate = useNavigate(); // Navigate after logout
+  const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate(); 
+  const location = useLocation();
 
-  // Collapse menu on screen resize
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 768) {
@@ -28,19 +26,17 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    logout(); // Log the user out
-    navigate("/login"); // Redirect to login page
+    logout(); 
+    navigate("/login");
   };
 
   return (
     <header>
       <div className={classes.navbar}>
-        {/* Logo */}
         <div className={classes.logo}>
           <a href="#">Nest & Ride</a>
         </div>
 
-        {/* Hamburger Menu Button */}
         <button
           className={classes.hamburger}
           onClick={toggleMenu}
@@ -53,22 +49,40 @@ const Header = () => {
           )}
         </button>
 
-        {/* Navigation Links */}
         <nav className={`${classes.nav} ${isMenuOpen ? classes.active : ""}`}>
-          <Link to="/" className={classes.navLink}>
+          <Link
+            to="/"
+            className={`${classes.navLink} ${
+              location.pathname === "/" ? classes.active : ""
+            }`}
+          >
             Home
           </Link>
-          <Link to="/services" className={classes.navLink}>
+          <Link
+            to="/services"
+            className={`${classes.navLink} ${
+              location.pathname === "/services" ? classes.active : ""
+            }`}
+          >
             Services
           </Link>
-          <Link to="/about" className={classes.navLink}>
+          <Link
+            to="/about"
+            className={`${classes.navLink} ${
+              location.pathname === "/about" ? classes.active : ""
+            }`}
+          >
             About
           </Link>
-          <Link to="/GetInTouch" className={classes.navLink}>
+          <Link
+            to="/GetInTouch"
+            className={`${classes.navLink} ${
+              location.pathname === "/GetInTouch" ? classes.active : ""
+            }`}
+          >
             Get in Touch
           </Link>
 
-          {/* Conditionally render Sign Up or Log Out */}
           {!isAuthenticated ? (
             <Link to="/register">
               <button className={classes.signup}>Sign Up</button>

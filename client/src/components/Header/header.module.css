@@ -59,9 +59,10 @@
   transition: all 0.3s ease-in-out;
 }
 
-.navLink:hover {
+.navLink:hover, .navLink.active {
   color: #ff6b00;
 }
+
 
 /* Sign-Up Button */
 .signup {
