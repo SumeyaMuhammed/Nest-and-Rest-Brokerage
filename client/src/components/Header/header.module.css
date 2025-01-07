@@ -1,5 +1,4 @@
 
-/* Navbar */
 .navbar {
   font-family: Arial, sans-serif;
   display: flex;
@@ -64,7 +63,6 @@
 }
 
 
-/* Sign-Up Button */
 .signup {
   background-color: #ff6b00;
   color: white;
@@ -80,7 +78,6 @@
   background-color: #cb5202;
 }
 
-/* Hamburger Menu Button */
 .hamburger {
   display: none; 
   background: none;
