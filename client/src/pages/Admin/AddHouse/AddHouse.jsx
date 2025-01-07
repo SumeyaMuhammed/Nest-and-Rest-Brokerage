@@ -8,7 +8,7 @@ const baseURL = axiosInstance.defaults.baseURL;
 
 const ManageHouse = () => {
   const [houses, setHouses] = useState([]);
-  const [brokers, setBrokers] = useState([]); 
+  const [brokers, setBrokers] = useState([]);
   const [newHouse, setNewHouse] = useState({
     title: '',
     description: '',
@@ -18,8 +18,9 @@ const ManageHouse = () => {
     area_sqft: '',
     location: '',
     image_url: '',
-    name: '', // Store the selected broker's ID
+    name: '',
   });
+  const [errors, setErrors] = useState({});
   const [message, setMessage] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [editingHouseId, setEditingHouseId] = useState(null);
@@ -30,12 +31,11 @@ const ManageHouse = () => {
       try {
         const [housesResponse, brokersResponse] = await Promise.all([
           axiosInstance.get('/houses'),
-          axiosInstance.get('/brokers') // Fetch brokers from the API
+          axiosInstance.get('/brokers'),
         ]);
 
         const availableBrokers = brokersResponse.data.filter(broker => broker.status === 'available');
         setHouses(Array.isArray(housesResponse.data) ? housesResponse.data : []);
-        // setHouses(housesResponse);
         setBrokers(availableBrokers);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -63,29 +63,26 @@ const ManageHouse = () => {
     });
   };
 
+  const validateForm = () => {
+    const fieldErrors = {};
+    if (!newHouse.title.trim()) fieldErrors.title = 'Title is required.';
+    if (!newHouse.price || isNaN(newHouse.price) || newHouse.price <= 0) fieldErrors.price = 'Price must be a positive number.';
+    if (!newHouse.num_bedrooms || isNaN(newHouse.num_bedrooms) || newHouse.num_bedrooms <= 0) fieldErrors.num_bedrooms = 'Number of bedrooms must be a positive number.';
+    if (!newHouse.num_bathrooms || isNaN(newHouse.num_bathrooms) || newHouse.num_bathrooms <= 0) fieldErrors.num_bathrooms = 'Number of bathrooms must be a positive number.';
+
+    setErrors(fieldErrors);
+    return Object.keys(fieldErrors).length === 0;
+  };
+
   const handleAddHouse = async (e) => {
     e.preventDefault();
 
-    if (!newHouse.title) {
-      setMessage('Error: House title is required.');
-      return;
-    }
-    if (!newHouse.price || isNaN(newHouse.price) || newHouse.price <= 0) {
-      setMessage('Error: A valid price is required.');
-      return;
-    }
-    if (!newHouse.num_bedrooms || isNaN(newHouse.num_bedrooms) || newHouse.num_bedrooms <= 0) {
-      setMessage('Error: Number of bedrooms is required and must be a positive number.');
-      return;
-    }
-    if (!newHouse.num_bathrooms || isNaN(newHouse.num_bathrooms) || newHouse.num_bathrooms <= 0) {
-      setMessage('Error: Number of bathrooms is required and must be a positive number.');
-      return;
-    }
+    if (!validateForm()) return;
 
     try {
+      let response;
       if (isEditing) {
-        await axiosInstance.put(`/houses/update/${editingHouseId}`, newHouse);
+        response = await axiosInstance.put(`/houses/update/${editingHouseId}`, newHouse);
         setHouses((prevHouses) =>
           prevHouses.map((house) =>
             house.house_id === editingHouseId ? { ...house, ...newHouse } : house
@@ -95,7 +92,7 @@ const ManageHouse = () => {
         setIsEditing(false);
         setEditingHouseId(null);
       } else {
-        const response = await axiosInstance.post('/houses/', newHouse);
+        response = await axiosInstance.post('/houses/', newHouse);
         setHouses((prevHouses) => [...prevHouses, response.data]);
         setMessage('House added successfully.');
       }
@@ -109,12 +106,12 @@ const ManageHouse = () => {
         area_sqft: '',
         location: '',
         image_url: '',
-        name: '', // Reset name
+        name: '',
       });
       setIsFormVisible(false);
     } catch (error) {
       console.error('Error:', error);
-      setMessage('Failed to add/update house. Please try again later.');
+      setMessage(error.response ? error.response.data : 'Failed to add/update house. Please try again later.');
     }
   };
 
@@ -157,7 +154,7 @@ const ManageHouse = () => {
                   <th>Bathrooms</th>
                   <th>Area (sqft)</th>
                   <th>Location</th>
-                  <th>Broker name</th>
+                  <th>Broker Name</th>
                   <th>Image</th>
                   <th>Actions</th>
                 </tr>
@@ -209,6 +206,7 @@ const ManageHouse = () => {
               onChange={handleInputChange}
               required
             />
+            {errors.title && <span className={classes.error}>{errors.title}</span>}
             <textarea
               name="description"
               placeholder="Description"
@@ -223,6 +221,7 @@ const ManageHouse = () => {
               onChange={handleInputChange}
               required
             />
+            {errors.price && <span className={classes.error}>{errors.price}</span>}
             <input
               type="number"
               name="num_bedrooms"
@@ -231,6 +230,7 @@ const ManageHouse = () => {
               onChange={handleInputChange}
               required
             />
+            {errors.num_bedrooms && <span className={classes.error}>{errors.num_bedrooms}</span>}
             <input
               type="number"
               name="num_bathrooms"
@@ -239,6 +239,7 @@ const ManageHouse = () => {
               onChange={handleInputChange}
               required
             />
+            {errors.num_bathrooms && <span className={classes.error}>{errors.num_bathrooms}</span>}
             <input
               type="number"
               name="area_sqft"
@@ -259,6 +260,7 @@ const ManageHouse = () => {
               value={newHouse.image_url}
               onChange={handleInputChange}
             />
+            {errors.image_url && <span className={classes.error}>{errors.image_url}</span>}
             <select
               name="name"
               value={newHouse.name}
@@ -272,6 +274,7 @@ const ManageHouse = () => {
                 </option>
               ))}
             </select>
+            {errors.broker_id && <span className={classes.error}>{errors.broker_id}</span>}
             <button type="submit">{isEditing ? 'Update House' : 'Add House'}</button>
           </form>
         )}
