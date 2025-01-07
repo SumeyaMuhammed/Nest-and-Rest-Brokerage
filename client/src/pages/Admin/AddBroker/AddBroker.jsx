@@ -11,15 +11,14 @@ const ManageBroker = () => {
     email: '',
     phone: '',
     address: '',
-    status: 'available',  // Default status
+    status: 'available',  
   });
   const [message, setMessage] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [editingBrokerId, setEditingBrokerId] = useState(null);
-  const [isFormVisible, setIsFormVisible] = useState(false); // New state for controlling form visibility
+  const [isFormVisible, setIsFormVisible] = useState(false); 
 
   useEffect(() => {
-    // Fetch brokers from the API on component mount
     const fetchBrokers = async () => {
       try {
         const response = await axiosInstance.get('/brokers');
@@ -37,7 +36,6 @@ const ManageBroker = () => {
         setMessage('');
       }, 5000);
 
-      // Cleanup the timer if component unmounts or message changes
       return () => clearTimeout(timer);
     }
   }, [message]);
@@ -64,16 +62,14 @@ const ManageBroker = () => {
         setEditingBrokerId(null);
       } else {
         const response = await axiosInstance.post('/brokers', newBroker);
-        console.log('New Broker Added:', response.data);  // Log for debugging
+        console.log('New Broker Added:', response.data); 
   
-        // Update brokers state with the newly added broker
         setBrokers((prevBrokers) => [...prevBrokers, response.data]);
         setMessage('Broker added successfully');
       }
 
-      // Reset form after submission
       setNewBroker({ name: '', email: '', phone: '', address: '', status: 'available' });
-      setIsFormVisible(false); // Hide form after submitting
+      setIsFormVisible(false); 
     } catch (error) {
       console.error('Error adding or updating broker:', error);
       setMessage('Failed to add/update broker');
@@ -85,17 +81,17 @@ const ManageBroker = () => {
     setNewBroker(brokerToEdit);
     setIsEditing(true);
     setEditingBrokerId(brokerId);
-    setIsFormVisible(true); // Show form when editing
+    setIsFormVisible(true); 
   };
 
   const handleDeleteBroker = async (brokerId) => {
     try {
       await axiosInstance.delete(`/brokers/${brokerId}`);
       setBrokers(brokers.filter((broker) => broker.broker_id !== brokerId));
-      setMessage('House deleted successfully.');
+      setMessage('broker deleted successfully.');
     } catch (error) {
       console.error('Error deleting broker:', error);
-      setMessage('Failed to delete house.');
+      setMessage('Failed to delete broker.');
     }
   };
 
