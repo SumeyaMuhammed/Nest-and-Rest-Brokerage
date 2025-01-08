@@ -1,45 +1,54 @@
 brokerage-system/
 ├── backend/                    # Backend (server-side)
 │   ├── controllers/            # Handle request logic
-│   ├── models/                 # Database models/schema
+        ├──broker.controller.js
+        ├──car.controller.js
+        ├──house.controllers.js
+        ├──user.controllers.js
+│   ├── database/                 # Database models/schema
+        ├──dbconfig.js
+        ├──schema.sql
 │   ├── routes/                 # API routes
+        ├──broker.routes.js
+        ├──car.routes.js
+        ├──house.routes.js
+        ├──user.routes.js
 │   ├── services/               # Business logic (e.g., broker assignment)
+        ├──broker.service.js
 │   ├── middlewares/            # Custom middlewares (e.g., authentication)
+        ├──auth.middleware.js
+        ├──upload.js
 │   ├── utils/                  # Utility functions/helpers
-│   ├── config/                 # Configuration files (e.g., DB connection)
-│   ├── tests/                  # Backend unit and integration tests
+        ├──email.js
 │   ├── app.js                  # Express app setup
 │   └── server.js               # Entry point for the backend
+│   └── public               #images to use during adding car and houses
+│      └── images/             
+│          └── cars/           #images of cars
+│          └── houses/           #images of houses
+
 │
-├── frontend/                   # Frontend (client-side)
+├── client/                   # Frontend (client-side)
 │   ├── public/                 # Public assets (e.g., index.html, icons)
 │   ├── src/                    # Source code for the React app
-│   │   ├── components/         # Reusable components (e.g., Navbar, Footer)
-│   │   ├── pages/              # Pages (e.g., Home, Listings, Details)
+│   │   ├── api/      
+          └── axiosInstance.js
+│   │   ├── assets/         # images used in different pages like services page.
+│   │       ├── images/         # images used in different pages like services page.
+│   │   ├── components/         # Reusable components (e.g., header, Footer and layout)
+│   │   ├── context/        
+│   │       ├── AuthContext.js/              
+│   │       ├── useAuth.js/              
+│   │   ├── pages/              # Pages (e.g., landing page, dashboard, admin, services, about, contact pages)
 │   │   ├── hooks/              # Custom React hooks
-│   │   ├── utils/              # Helper functions (e.g., formatters)
-│   │   ├── services/           # API calls (e.g., Axios services)
-│   │   ├── context/            # Context API (e.g., Auth, Filters)
-│   │   ├── App.js              # Main React component
-│   │   ├── index.js            # Entry point for React
-│   │   └── styles/             # Styling (e.g., CSS/SCSS files)
+│   │   ├── utils/              
+│   │      ├── adminRoute.js x            
+│   │      ├── AdminRoutes.jsx             
+│   │      ├── protectedRoute.js x        
+│   │   ├── App.jsx              # Main React component
+│   │   ├── index.jsx            # Entry point for React             
 │   ├── package.json            # Frontend dependencies
 │   └── webpack.config.js       # Webpack configuration (if using custom setup)
-│
-├── database/                   # Database scripts and migrations
-│   ├── migrations/             # Schema changes over time
-│   ├── seeders/                # Initial data population
-│   └── schema.sql              # Database schema (initial setup)
-│
-├── docs/                       # Documentation for the project
-│   ├── API.md                  # API documentation
-│   ├── DB_SCHEMA.md            # Database schema documentation
-│   └── README.md               # Overview of the project
-│
-├── tests/                      # End-to-end and integration tests
-│   ├── frontend/               # Frontend tests
-│   ├── backend/                # Backend tests
-│   └── e2e/                    # End-to-end tests
 │
 ├── .env                        # Environment variables (common for both backend & frontend)
 ├── .gitignore                  # Git ignore file
