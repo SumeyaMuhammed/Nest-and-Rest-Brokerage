@@ -14,12 +14,25 @@ Nest and Rest Brokerage is a web application designed to facilitate the buying, 
 
 ## Screenshots
 ![Landing Page](Screenshots/landingPage.png)
+*This is the landing page of the application, showcasing its purpose and welcoming users.*
+
 ![Admin Dashboard](Screenshots/adminDashboard.png)
+*The admin dashboard allows administrators to manage brokers and property listings.*
+
 ![Manage Car](Screenshots/manageCar.png)
+*This screen shows the interface for managing car listings, including editing and deleting options.*
+
 ![Add Car](Screenshots/addCar.png)
+*The add car page enables admins to add new car listings with all necessary details and images.*
+
 ![Manage Broker](Screenshots/manageBroker.png)
+*This page provides tools for administrators to manage broker information and assignments.*
+
 ![Add Broker](Screenshots/addBroker.png)
+*The add broker interface allows admins to onboard new brokers to the platform.*
+
 ![User Dashboard](Screenshots/userDashboard.png)
+*The user dashboard displays property listings with filtering options and detailed views.*
 
 ## Installation
 To get started with the project, follow these steps:
