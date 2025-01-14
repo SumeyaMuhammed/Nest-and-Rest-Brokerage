@@ -1,7 +1,7 @@
-# Nest and Rest Brokerage
+# Nest and Ride Brokerage
 
 ## Description
-Nest and Rest Brokerage is a web application designed to facilitate the buying, selling, and renting of properties. The application provides a user-friendly interface for both brokers and clients, allowing them to manage listings, view property details, and connect with each other seamlessly.
+Nest and Ride Brokerage is a web application designed to facilitate the buying, selling, and renting of properties. The application provides a user-friendly interface for both brokers and clients, allowing them to manage listings, view property details, and connect with each other seamlessly.
 
 ## Features
 - User authentication and authorization
