@@ -12,6 +12,15 @@ Nest and Rest Brokerage is a web application designed to facilitate the buying, 
 - Search functionality for properties
 - Detailed views for each property
 
+## Screenshots
+![Landing Page](Screenshots/landingPage.png)
+![Admin Dashboard](Screenshots/adminDashboard.png)
+![Manage Car](Screenshots/manageCar.png)
+![Add Car](Screenshots/addCar.png)
+![Manage Broker](Screenshots/manageBroker.png)
+![Add Broker](Screenshots/addBroker.png)
+![User Dashboard](Screenshots/userDashboard.png)
+
 ## Installation
 To get started with the project, follow these steps:
 
@@ -33,26 +42,45 @@ To get started with the project, follow these steps:
    npm install
    ```
 
-4. Set up the database:
-   - Configure your database settings in `backend/database/dbconfig.js`.
-   - Run the SQL schema in `backend/database/schema.sql` to set up the initial database structure.
-
 ## Usage
 To run the application, follow these steps:
 
 1. Start the backend server:
    ```bash
    cd backend
-   npm start
+   node app.js
    ```
 
 2. Start the frontend application:
    ```bash
    cd ../client
-   npm start
+   npm run dev
    ```
 
-3. Open your browser and navigate to `http://localhost:3000` to access the application.
+3. Open your browser and navigate to `http://localhost:5173` to access the application.
+
+### Logging In
+- **Admin Login**: Use the following credentials to log in as an admin:
+  - Username: `sumeya`
+  - Password: `sumina4567`
+  
+- **User Login**: Use the credentials provided during registration to log in as a user. After logging in, you will be directed to the dashboard where you can manage properties.
+
+### Navigating the Application
+- When navigating to the admin dashboard, you can choose to manage cars, houses, or brokers.
+- If logged in as a user, you will have an access to detailed views for each property.
+
+## .env Configuration
+To access the database, ensure your `.env` file contains the following settings:
+
+```
+DB_HOST=localhost
+DB_USER=brokerage
+DB_PASSWORD=@tWeO70-eE4JyO6
+DB_NAME=brokerage
+DB_PORT=3306
+JWT_SECRET=NEXHXsMOS7Yj536kxccj834jhrCQxuNzr9EpLa6YVGHO
+```
 
 ## Contributing
 Contributions are welcome! Please follow these steps to contribute:
@@ -67,6 +95,8 @@ Contributions are welcome! Please follow these steps to contribute:
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Contact Information
-For any inquiries, please contact:
-- Your Name - [your.email@example.com](mailto:your.email@example.com)
-- GitHub: [yourusername](https://github.com/yourusername)
+For any inquiries or support, please contact:
+- Sumeya Muhammed - [sumenaweya@gmail.com](mailto:sumenaweya@gmail.com)
+- GitHub: [SumeyaMuhammed](https://github.com/SumeyaMuhammed)
+- LinkedIn: [Sumeya Muhammed](https://www.linkedin.com/in/sumeya-muhammed-a83168319/)
+
