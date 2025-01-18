@@ -1,7 +1,7 @@
 # Nest and Ride Brokerage
 
 ## Description
-Nest and Ride Brokerage is a web application designed to facilitate the buying, selling, and renting of properties. The application provides a user-friendly interface for both brokers and clients, allowing them to manage listings, view property details, and connect with each other seamlessly.
+Nest and Ride Brokerage is a web application designed to facilitate the buying of properties. The application provides a user-friendly interface for both brokers and clients, allowing them to manage listings, view property details, and connect with each other seamlessly.
 
 ## Features
 - User authentication and authorization
@@ -37,62 +37,92 @@ Nest and Ride Brokerage is a web application designed to facilitate the buying, 
 ## Installation
 To get started with the project, follow these steps:
 
+### Backend Setup
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/nest-and-rest-brokerage.git
-   cd nest-and-rest-brokerage
+   git clone https://github.com/yourusername/nest-and-ride-brokerage.git
+   cd nest-and-ride-brokerage
    ```
-
 2. Install backend dependencies:
    ```bash
    cd backend
    npm install
    ```
 
-3. Install frontend dependencies:
+3. Set up the database:
+   - Ensure MySQL is installed and running on your machine.
+   - Create a new database named `brokerage`:
+     ```sql
+     CREATE DATABASE brokerage;
+     ```
+   - Import the database schema:
+     ```bash
+     mysql -u [username] -p brokerage < backend/database/schema.sql
+     ```
+   - Import the seed data for testing:
+     ```bash
+     mysql -u [username] -p brokerage < backend/database/seed.sql
+     ```
+   - Configure the `.env` file:
+     - Copy the example file:
+       ```bash
+       cp .env.example .env
+       ```
+     - Update the `.env` file with your database credentials:
+       ```plaintext
+       DB_HOST=localhost
+       DB_USER=root
+       DB_PASSWORD=yourpassword
+       DB_NAME=brokerage
+       DB_PORT=3306
+       JWT_SECRET=your_jwt_secret
+       ```
+
+4. Start the backend server:
+   ```bash
+   node app.js
+   ```
+
+### Frontend Setup
+1. Install frontend dependencies:
    ```bash
    cd ../client
    npm install
    ```
-
-## Usage
-To run the application, follow these steps:
-
-1. Start the backend server:
-   ```bash
-   cd backend
-   node app.js
-   ```
-
 2. Start the frontend application:
    ```bash
-   cd ../client
    npm run dev
    ```
-
 3. Open your browser and navigate to `http://localhost:5173` to access the application.
 
-### Logging In
-- **Admin Login**: Use the following credentials to log in as an admin:
-  - Username: `sumeya`
-  - Password: `sumina4567`
-  
-- **User Login**: Use the credentials provided during registration to log in as a user. After logging in, you will be directed to the dashboard where you can manage properties.
+## Database Configuration
+The database connection is managed using the `dbconfig.js` file in the `backend` directory. Ensure that the `.env` file is correctly set up as described above. The provided schema includes tables for roles, brokers, houses, cars, and users, with appropriate relationships.
 
-### Navigating the Application
-- When navigating to the admin dashboard, you can choose to manage cars, houses, or brokers.
-- If logged in as a user, you will have an access to detailed views for each property.
+### Schema Overview
+- **Role**: Manages user roles (e.g., Admin, User).
+- **Broker**: Contains information about brokers and their availability.
+- **House**: Stores details about houses, including broker assignments.
+- **Car**: Stores details about cars, including broker assignments.
+- **User**: Handles user accounts and their roles.
+
+### Seed Data
+To populate the database with sample data for testing, use the `seed.sql` file provided in the `backend/database/` directory. This file includes sample entries for houses, cars, brokers, and users.
+
+Import the seed data:
+```bash
+mysql -u [username] -p brokerage < backend/database/seed.sql
+```
 
 ## .env Configuration
 To access the database, ensure your `.env` file contains the following settings:
 
-```
+```plaintext
 DB_HOST=localhost
-DB_USER=brokerage
-DB_PASSWORD=@tWeO70-eE4JyO6
+DB_USER=root
+DB_PASSWORD=yourpassword
 DB_NAME=brokerage
 DB_PORT=3306
-JWT_SECRET=NEXHXsMOS7Yj536kxccj834jhrCQxuNzr9EpLa6YVGHO
+JWT_SECRET=your_jwt_secret
 ```
 
 ## Contributing
@@ -112,4 +142,3 @@ For any inquiries or support, please contact:
 - Sumeya Muhammed - [sumenaweya@gmail.com](mailto:sumenaweya@gmail.com)
 - GitHub: [SumeyaMuhammed](https://github.com/SumeyaMuhammed)
 - LinkedIn: [Sumeya Muhammed](https://www.linkedin.com/in/sumeya-muhammed-a83168319/)
-
