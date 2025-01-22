@@ -19,7 +19,7 @@ Nest and Ride Brokerage is a web application designed to facilitate the buying o
 ![Admin Dashboard](Screenshots/adminDashboard.png)
 *The admin dashboard allows administrators to manage brokers and property listings.*
 
-![Manage Car](Screenshots/manageCar.png)
+![Manage Car](Screenshots/managecars.png)
 *This screen shows the interface for managing car listings, including editing and deleting options.*
 
 ![Add Car](Screenshots/addCar.png)
@@ -31,7 +31,7 @@ Nest and Ride Brokerage is a web application designed to facilitate the buying o
 ![Add Broker](Screenshots/addBroker.png)
 *The add broker interface allows admins to onboard new brokers to the platform.*
 
-![User Dashboard](Screenshots/userDashboard.png)
+![User Dashboard](Screenshots/userdashboard.png)
 *The user dashboard displays property listings with filtering options and detailed views.*
 
 ## Installation
