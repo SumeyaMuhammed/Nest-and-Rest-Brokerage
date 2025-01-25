@@ -51,7 +51,7 @@ const ManageCar = () => {
     if (message) {
       const timer = setTimeout(() => {
         setMessage('');
-      }, 100000);
+      }, 5000);
 
       // Cleanup the timer if component unmounts or message changes
       return () => clearTimeout(timer);
