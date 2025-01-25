@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `Broker` (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
--- Create House Table (Foreign Key References Broker Table)
+-- Create House Table (Includes Broker Name and Validates Availability in Application Logic)
 CREATE TABLE IF NOT EXISTS `House` (
     house_id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -29,13 +29,13 @@ CREATE TABLE IF NOT EXISTS `House` (
     area_sqft DECIMAL(10, 2),
     location TEXT,
     image_url VARCHAR(255), -- Store the path/URL to the house image
-    broker_id INT,
+    broker_name VARCHAR(255) NOT NULL, -- Store the broker's name
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT fk_broker_house FOREIGN KEY (broker_id) REFERENCES `Broker`(broker_id) ON DELETE SET NULL
+    CONSTRAINT fk_available_broker_house CHECK (broker_name IN (SELECT name FROM Broker WHERE status = 'available'))
 ) ENGINE=InnoDB;
 
--- Create Car Table (Foreign Key References Broker Table)
+-- Create Car Table (Includes Broker Name and Validates Availability in Application Logic)
 CREATE TABLE IF NOT EXISTS `Car` (
     car_id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -47,10 +47,10 @@ CREATE TABLE IF NOT EXISTS `Car` (
     mileage INT,
     color VARCHAR(50),
     image_url VARCHAR(255), -- Store the path/URL to the car image
-    broker_id INT,
+    broker_name VARCHAR(255) NOT NULL, -- Store the broker's name
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT fk_broker_car FOREIGN KEY (broker_id) REFERENCES `Broker`(broker_id) ON DELETE SET NULL
+    CONSTRAINT fk_available_broker_car CHECK (broker_name IN (SELECT name FROM Broker WHERE status = 'available'))
 ) ENGINE=InnoDB;
 
 -- Create User Table (Foreign Key References Role Table)
