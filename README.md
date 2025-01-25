@@ -13,34 +13,45 @@ Nest and Ride Brokerage is a web application designed to facilitate the buying o
 - Detailed views for each property
 
 ## Screenshots
-![Landing Page](Screenshots/landingPage.png)
+![Landing Page](Screenshots/landingPage.png)  
 *This is the landing page of the application, showcasing its purpose and welcoming users.*
 
-![Admin Dashboard](Screenshots/adminDashboard.png)
+![Signup Page](Screenshots/signup.png) 
+*This is the signup page of the application, enabling new users to create an account by providing their details and setting up their credentials.*
+
+![Login Page](Screenshots/login.png) 
+*This is the login page of the application, allowing users and admins to securely sign in using their credentials to access their accounts and redirect to appropriate page.*
+
+![Admin Dashboard](Screenshots/adminDashboard.png)  
 *The admin dashboard allows administrators to manage brokers and property listings.*
 
-![Manage Car](Screenshots/managecars.png)
+![Manage Car](Screenshots/managecars.png)  
 *This screen shows the interface for managing car listings, including editing and deleting options.*
 
-![Add Car](Screenshots/addCar.png)
+![Add Car](Screenshots/addCar.png)  
 *The add car page enables admins to add new car listings with all necessary details and images.*
 
-![Manage Broker](Screenshots/manageBroker.png)
+![Manage House](Screenshots/manageHouses.png)  
+*This screen shows the interface for managing house listings, including editing and deleting options.*
+
+![Add House](Screenshots/addHouse.png)  
+*The add house page enables admins to add new house listings with all necessary details and images.*
+
+![Manage Broker](Screenshots/manageBroker.png)  
 *This page provides tools for administrators to manage broker information and assignments.*
 
-![Add Broker](Screenshots/addBroker.png)
+![Add Broker](Screenshots/addBrokers.png)  
 *The add broker interface allows admins to onboard new brokers to the platform.*
 
-![User Dashboard](Screenshots/userdashboard.png)
+![User Dashboard](Screenshots/usersDashboard.png)  
 *The user dashboard displays property listings with filtering options and detailed views.*
 
 ## Installation
-To get started with the project, follow these steps:
 
 ### Backend Setup
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/nest-and-ride-brokerage.git
+   git clone https://github.com/SumeyaMuhammed/Nest-and-Ride-Brokerage.git
    cd nest-and-ride-brokerage
    ```
 2. Install backend dependencies:
@@ -63,22 +74,23 @@ To get started with the project, follow these steps:
      ```bash
      mysql -u [username] -p brokerage < backend/database/seed.sql
      ```
-   - Configure the `.env` file:
-     - Copy the example file:
-       ```bash
-       cp .env.example .env
-       ```
-     - Update the `.env` file with your database credentials:
-       ```plaintext
-       DB_HOST=localhost
-       DB_USER=root
-       DB_PASSWORD=yourpassword
-       DB_NAME=brokerage
-       DB_PORT=3306
-       JWT_SECRET=your_jwt_secret
-       ```
 
-4. Start the backend server:
+4. Configure the `.env` file:
+   - Copy the example file:
+     ```bash
+     cp .env.example .env
+     ```
+   - Update the `.env` file with your database credentials:
+     ```plaintext
+     DB_HOST=localhost
+     DB_USER=root
+     DB_PASSWORD=yourpassword
+     DB_NAME=brokerage
+     DB_PORT=3306
+     JWT_SECRET=your_jwt_secret
+     ```
+
+5. Start the backend server:
    ```bash
    node app.js
    ```
@@ -96,7 +108,7 @@ To get started with the project, follow these steps:
 3. Open your browser and navigate to `http://localhost:5173` to access the application.
 
 ## Database Configuration
-The database connection is managed using the `dbconfig.js` file in the `backend` directory. Ensure that the `.env` file is correctly set up as described above. The provided schema includes tables for roles, brokers, houses, cars, and users, with appropriate relationships.
+The database connection is managed using the `dbconfig.js` file in the backend directory. Ensure that the `.env` file is correctly set up as described above. The provided schema includes tables for roles, brokers, houses, cars, and users, with appropriate relationships.
 
 ### Schema Overview
 - **Role**: Manages user roles (e.g., Admin, User).
@@ -139,6 +151,8 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Contact Information
 For any inquiries or support, please contact:
+
 - Sumeya Muhammed - [sumenaweya@gmail.com](mailto:sumenaweya@gmail.com)
 - GitHub: [SumeyaMuhammed](https://github.com/SumeyaMuhammed)
 - LinkedIn: [Sumeya Muhammed](https://www.linkedin.com/in/sumeya-muhammed-a83168319/)
+
